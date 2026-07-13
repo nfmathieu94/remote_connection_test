@@ -1,21 +1,41 @@
 ---
 title: "Curriculum Roadmap"
-subtitle: "Every lesson, why it's here, and the interview questions it prepares you for — from base rates to language models."
+subtitle: "Every lesson, why it's here, and the interview questions it prepares you for — from base rates to foundation models in biology."
 ---
 
-The curriculum is organized as five tracks. Earlier tracks are prerequisites
-for later ones in spirit if not in strict order: you cannot reason about a
-model's calibration (Track D) without confidence intervals (Track A), and you
-cannot interpret an embedding space (Track E) without clustering and distance
-(Track D). Each lesson below lists its status, its core ideas, and — because
-that is half the point of this site — **the interview questions it unlocks**.
+This is a curriculum in **statistics and machine learning for bioinformatics**,
+built to do three jobs at once: teach the concepts rigorously, prepare you for
+hard technical interviews at top companies and labs, and stay modern — the
+examples come from single-cell sequencing, neural networks, and large language
+models, not coin flips and urns.
+
+It is organized as five tracks. Earlier tracks are prerequisites for later ones
+in spirit if not in strict order: you cannot reason about a model's calibration
+(Track D) without confidence intervals (Track A), and you cannot interpret a
+single-cell embedding (Track D/E) without dimensionality reduction and distance.
+Each lesson lists its status, its core ideas, and — because that is half the
+point of this site — **the interview questions it unlocks**.
 
 ::: {.lens}
-The interview questions throughout are written in the spirit of a research
-science interview at a frontier-AI lab: less "state the formula," more "here is
-a messy situation — what do you do, what do you assume, and how would you know
-if you were wrong?" They double as a self-test. If you can answer them out
+The interview questions throughout are written in the spirit of a technical
+interview at a top research group or company: less "state the formula," more
+"here is a messy dataset — what do you do, what do you assume, and how would you
+know if you were wrong?" They double as a self-test. If you can answer them out
 loud, you know the lesson.
+:::
+
+::: {.specimen}
+**Who this is for**
+
+- **Graduate students** learning statistics and bioinformatics who want
+  intuition that survives past the exam.
+- **Late-stage PhDs and postdocs** preparing for demanding technical interviews
+  (industry, computational biology, ML-for-science roles).
+- **Working professionals** who need a fast, trustworthy refresher on a key
+  concept or workflow before a meeting, an analysis, or a screen.
+
+A recurring thread — **single-cell RNA-seq** — runs through the tracks as a
+shared worked example, so concepts compound instead of resetting each lesson.
 :::
 
 # Track A · Inference foundations {#track-a}
@@ -28,8 +48,8 @@ only study one track before an interview, study this one.
 [Open the lesson →](lessons/01-bayesian-statistics/index.qmd)
 
 Updating beliefs with evidence: priors, likelihoods, posteriors, and why base
-rates are the most-ignored number in science. Natural-frequency reasoning,
-the odds form, and where priors come from.
+rates are the most-ignored number in science. Natural-frequency reasoning, the
+odds form, and where priors come from.
 
 **Interview questions this unlocks**
 
@@ -54,7 +74,8 @@ $\alpha$, and why "not significant" is not "no effect" [@wasserstein2016].
 
 One-sample, two-sample, and paired *t*-tests; where the *t*-distribution comes
 from and why it has fatter tails than the normal; the assumptions (normality,
-equal variance, independence) and what to do when they fail.
+equal variance, independence) and what to do when they fail — including when to
+reach for a non-parametric test (Wilcoxon/Mann–Whitney).
 
 **Interview questions this unlocks**
 
@@ -64,9 +85,10 @@ equal variance, independence) and what to do when they fail.
 
 ### Lesson 4 — Confidence Intervals & the Bootstrap · *planned* {#lesson-04}
 
-What a confidence interval actually claims (and the interpretation everyone
-gets wrong), the duality with hypothesis tests, and the bootstrap as a way to
-get an interval when the formula is intractable.
+What a confidence interval actually claims (and the interpretation everyone gets
+wrong), the duality with hypothesis tests, and the bootstrap as a way to get an
+interval when the formula is intractable — the workhorse for the messy
+statistics of real genomic data.
 
 **Interview questions this unlocks**
 
@@ -76,9 +98,11 @@ get an interval when the formula is intractable.
 
 ### Lesson 5 — Multiple Comparisons & FDR · *planned* {#lesson-05}
 
-The problem that defines modern genomics: run 20,000 tests and thousands come
-back "significant" by chance. Family-wise error vs. false discovery rate;
-Bonferroni, Benjamini–Hochberg, and *q*-values [@benjamini1995; @storey2003].
+The problem that defines modern genomics: run 20,000 differential-expression
+tests and thousands come back "significant" by chance. Family-wise error vs.
+false discovery rate; Bonferroni, Benjamini–Hochberg, and *q*-values
+[@benjamini1995; @storey2003]. Worked on a single-cell differential-expression
+example.
 
 **Interview questions this unlocks**
 
@@ -89,15 +113,17 @@ Bonferroni, Benjamini–Hochberg, and *q*-values [@benjamini1995; @storey2003].
 
 ### Lesson 6 — Statistical Power & Experimental Design · *planned* {#lesson-06}
 
-Effect size, sample size, and the four-way relationship between $\alpha$,
-power, effect size, and $n$. Why underpowered studies are worse than useless,
-and how to plan a study that can actually answer its question.
+Effect size, sample size, and the four-way relationship between $\alpha$, power,
+effect size, and $n$. Why underpowered studies are worse than useless, how to
+plan a study that can actually answer its question, and the special headaches of
+powering a single-cell experiment (cells vs. samples — the pseudo-replication
+trap).
 
 **Interview questions this unlocks**
 
 - Design a power analysis for an experiment I describe. What do you need to know?
 - Why is an underpowered "significant" result especially untrustworthy?
-- Post-hoc power is a trap. Why?
+- In scRNA-seq, is your sample size the number of cells or the number of animals?
 
 # Track B · Data transformation & normalization {#track-b}
 
@@ -105,19 +131,21 @@ and how to plan a study that can actually answer its question.
 
 The transformations you apply before almost any analysis, and the ones
 interviewers love because everyone fumbles them. Z-scores, min–max scaling,
-log and its variance-stabilizing cousins (rlog, VST), quantile normalization.
-Framed on RNA-seq and other high-dimensional biological data.
+log/log1p, variance-stabilizing transforms (rlog, VST), CPM/TPM, size-factor and
+median-of-ratios normalization, `SCTransform`, and quantile normalization —
+framed on bulk **and single-cell** RNA-seq. When each is right, and what each
+quietly distorts.
 
 **Interview questions this unlocks**
 
-- You have RNA-seq counts across samples with different sequencing depths.
+- You have scRNA-seq counts with wildly different sequencing depth per cell.
   Walk me through how you'd normalize, and why.
 - When is a z-score the wrong choice? What does it assume?
-- Why log-transform? What does it fix, and what does it break at zero?
+- Why log-transform? What does it fix, and what breaks at zero (and why `log1p`)?
 - Quantile normalization forces every sample to share a distribution. When is
   that a feature and when is it a lie?
 
-# Track C · Regression & models {#track-c}
+# Track C · Regression & statistical models {#track-c}
 
 ### Lesson 8 — Linear Regression · *planned* {#lesson-08}
 
@@ -134,20 +162,21 @@ diagnostic plots that tell you when it's lying to you.
 ### Lesson 9 — Logistic Regression & GLMs · *planned* {#lesson-09}
 
 From lines to log-odds. Link functions, interpreting coefficients as odds
-ratios, the generalized linear model family, and model calibration.
+ratios, the generalized linear model family (including the negative-binomial
+models behind bulk RNA-seq differential expression), and model calibration.
 
 **Interview questions this unlocks**
 
 - Why can't you just use linear regression for a 0/1 outcome?
 - Interpret a logistic coefficient of 0.7.
-- What does it mean for a probabilistic classifier to be *calibrated*, and how
-  would you check?
+- Why is RNA-seq count data modeled with a negative binomial and not a Poisson?
 
 ### Lesson 10 — Regularization & the Bias–Variance Tradeoff · *planned* {#lesson-10}
 
-The central tension of all model-fitting. Overfitting and underfitting made
-visual; ridge vs. lasso and what each does to coefficients; cross-validation
-as the honest estimate of out-of-sample error.
+The central tension of all model-fitting, and the conceptual bridge from
+statistics to machine learning. Overfitting and underfitting made visual; ridge
+vs. lasso and what each does to coefficients; cross-validation as the honest
+estimate of out-of-sample error.
 
 **Interview questions this unlocks**
 
@@ -155,10 +184,12 @@ as the honest estimate of out-of-sample error.
 - Ridge vs. lasso — what's the difference and when do you reach for each?
 - Why do we need a validation set separate from the test set?
 
-# Track D · Machine learning fundamentals {#track-d}
+# Track D · Machine learning: workflow to neural networks {#track-d}
 
-The interview core for any ML-adjacent science role. Heavy on **decision
-flowcharts** — the point is the *process*, not memorized definitions.
+The interview core for any ML-for-science role. Heavy on **decision
+flowcharts** — the point is the *process* and the *intuition for how models
+learn*, not memorized definitions. This track walks from "how do I even approach
+an ML problem" all the way to neural networks.
 
 ### Lesson 11 — The ML Workflow · *planned* {#lesson-11}
 
@@ -166,7 +197,7 @@ How to actually approach an ML problem, start to finish, as a set of decision
 flowcharts: is this even an ML problem? Supervised or unsupervised? How do you
 split the data? What's your baseline? What statistics do you capture and what
 plots do you generate at each stage? Includes hands-on "train a tiny model"
-walkthroughs.
+walkthroughs on a real dataset.
 
 **Interview questions this unlocks**
 
@@ -177,51 +208,87 @@ walkthroughs.
 ### Lesson 12 — Model Evaluation & Selection · *planned* {#lesson-12}
 
 The metrics and the traps. Train/validation/test discipline, cross-validation,
-confusion matrices, ROC vs. precision–recall, class imbalance, and data
-leakage — the silent killer of real projects.
+confusion matrices, ROC vs. precision–recall, class imbalance (ubiquitous in
+biology), and data leakage — the silent killer of real projects.
 
 **Interview questions this unlocks**
 
 - Accuracy is 99% and the model is useless. How is that possible?
 - ROC-AUC vs. PR-AUC — which do you report on a rare-event problem, and why?
-- Define data leakage and give me three ways it sneaks in.
+- Define data leakage and give me three ways it sneaks into a genomics pipeline.
 - Your CV score is great and production performance is terrible. Debug it.
 
-### Lesson 13 — Unsupervised Learning · *planned* {#lesson-13}
+### Lesson 13 — Unsupervised Learning & Dimensionality Reduction · *planned* {#lesson-13}
 
-Structure without labels. PCA for linear structure and variance, k-means and
-hierarchical clustering, and UMAP/t-SNE for visualization — with a hard focus
-on how to *not* over-interpret them.
+Structure without labels — the heart of a single-cell analysis. PCA for linear
+structure and variance, k-means and graph-based (Leiden/Louvain) clustering, and
+UMAP/t-SNE for visualization — with a hard focus on how to *not* over-interpret
+them. This is the lesson that demystifies the scRNA-seq UMAP everyone shows and
+few can defend.
 
 **Interview questions this unlocks**
 
 - What do the axes of a PCA plot mean? What about a UMAP plot? (Trick question.)
-- How do you choose *k* in k-means, and why is that choice partly a lie?
-- I see three clusters. How do I know they're real and not an artifact?
+- How do you choose the number of clusters, and why is that choice partly a lie?
+- I see three clusters in a UMAP. How do I know they're real cell types and not
+  an artifact of the parameters?
 
-# Track E · Toward LLMs in science {#track-e}
+### Lesson 14 — Gradient Descent & Optimization · *planned* {#lesson-14}
 
-The destination. Enough intuition for a broad scientist — not a
-mathematician — to use language models as instruments for finding patterns in
-scientific data and text, and to know when *not* to trust them.
+The engine under nearly every model in Tracks C–E. What it means to "learn" a
+parameter by following a gradient downhill; loss surfaces, learning rate,
+stochastic vs. batch gradient descent, and the failure modes (local minima,
+exploding/vanishing gradients) — built up visually and interactively, no heavy
+calculus required.
 
-### Lesson 14 — Embeddings & Similarity · *planned* {#lesson-14}
+**Interview questions this unlocks**
 
-The idea that meaning can be a direction in space. What a vector embedding is,
-cosine similarity, and why "nearby in embedding space" is the engine under
-semantic search, clustering documents, and retrieval.
+- Explain gradient descent to me as if I were a first-year grad student.
+- Your loss is oscillating and won't converge. What's your first suspect?
+- What is a learning rate, and what happens if it's too big or too small?
+- Why *stochastic* gradient descent — what does the randomness buy you?
+
+### Lesson 15 — Neural Networks · *planned* {#lesson-15}
+
+From logistic regression to deep learning, one honest step at a time. A neuron
+as a weighted sum plus a nonlinearity; why depth and nonlinearity buy
+expressiveness; forward and backward passes (backprop as the chain rule doing
+bookkeeping); activation functions, overfitting, and regularization
+(dropout, early stopping). Grounded in a biological classification example.
+
+**Interview questions this unlocks**
+
+- Walk me from logistic regression to a neural network. What's actually new?
+- Why do we need nonlinear activation functions at all?
+- What is backpropagation, in one paragraph, without the matrix algebra?
+- Your network memorizes the training data. Name three ways to fix it.
+
+# Track E · LLMs & modern AI in biology {#track-e}
+
+The destination. Enough intuition for a working scientist — not a
+mathematician — to use language models and foundation models as instruments for
+finding patterns in biological data and text, and to know when *not* to trust
+them.
+
+### Lesson 16 — Embeddings & Similarity · *planned* {#lesson-16}
+
+The idea that meaning — of a word, a protein, a cell — can be a direction in
+space. What a vector embedding is, cosine similarity, and why "nearby in
+embedding space" is the engine under semantic search, clustering documents, and
+single-cell integration.
 
 **Interview questions this unlocks**
 
 - What *is* an embedding? What does distance in that space mean?
 - Cosine similarity vs. Euclidean distance — when does the choice matter?
-- How would you cluster 10,000 paper abstracts by topic without labels?
+- How would you cluster 10,000 paper abstracts — or 10,000 cells — without labels?
 
-### Lesson 15 — What a Language Model Actually Learns · *planned* {#lesson-15}
+### Lesson 17 — What a Language Model Actually Learns · *planned* {#lesson-17}
 
-Demystifying the machine. Tokens, the next-token objective, attention at an
-intuitive level, and what "learning" means for a model that only ever predicts
-the next piece of text. No heavy math — just the right mental model.
+Demystifying the machine. Tokens, the next-token objective, attention and
+transformers at an intuitive level, and what "learning" means for a model that
+only ever predicts the next piece of a sequence — whether that sequence is
+English or amino acids. No heavy math — just the right mental model.
 
 **Interview questions this unlocks**
 
@@ -229,17 +296,20 @@ the next piece of text. No heavy math — just the right mental model.
 - Why does next-token prediction produce something that looks like reasoning?
 - What can a model trained this way *not* be trusted to do?
 
-### Lesson 16 — Using LLMs to Find Patterns in Science · *planned* {#lesson-16}
+### Lesson 18 — LLMs & Foundation Models in Biology · *planned* {#lesson-18}
 
-Putting it to work, responsibly. Retrieval over a corpus, clustering
-embeddings of experimental results, using models as noisy annotators, building
-simple evals, and the ever-present risks — hallucination, miscalibration, and
+Putting it to work, responsibly. Protein language models (ESM-style) and
+single-cell foundation models; retrieval over a literature corpus; using LLMs as
+noisy annotators; building simple evals; and the ever-present risks —
+hallucination, miscalibration, batch effects masquerading as biology, and
 confirmation bias dressed up as discovery.
 
 **Interview questions this unlocks**
 
 - You want to use an LLM to screen 50,000 abstracts for a phenotype. How do you
   set it up, and how do you validate that it works?
+- What does a protein language model embedding actually capture, and how would
+  you sanity-check it?
 - The model is confidently wrong 5% of the time. How does that change your
   pipeline design?
 - How do you build an eval for a task with no ground-truth labels?
@@ -249,7 +319,8 @@ confirmation bias dressed up as discovery.
 ::: {.callout-tip}
 ## This roadmap is a living document
 Lessons ship as they're written; the outlines above are firm enough to study
-from and will be filled in over time. Track A is the priority. If you're
-preparing for a specific interview and want a lesson pulled forward, that's
-exactly the kind of thing this roadmap exists to make visible.
+from and will be filled in over time. Track A is the priority, and Lesson 2
+(*p*-values) is next. If you're preparing for a specific interview and want a
+lesson pulled forward, that's exactly the kind of thing this roadmap exists to
+make visible.
 :::

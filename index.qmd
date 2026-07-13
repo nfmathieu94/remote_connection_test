@@ -1,6 +1,6 @@
 ---
 title: "Statistics by Intuition"
-subtitle: "A field notebook for scientists — the intuition behind the statistics and machine learning you'll be asked about, and the practice to make it stick."
+subtitle: "A field notebook for bioinformatics — the intuition behind the statistics and machine learning you'll actually use, examples from cutting-edge biology, and rigorous interview prep to make it all stick."
 toc: false
 ---
 
@@ -16,25 +16,30 @@ toc: false
 :::
 
 Most statistics education hands you a formula and hopes the meaning arrives
-later. It usually doesn't. This site inverts the order: every topic starts
-with a problem a scientist actually has — a suspicious test result, a batch
-effect, a model that looks great on training data and collapses in the wild —
-and lets the mathematics emerge from the problem rather than the other way
-around.
+later. It usually doesn't. This site inverts the order: every topic starts with
+a problem a bioinformatician actually has — a suspicious test result, a
+single-cell dataset that won't normalize, a batch effect, a model that looks
+great on training data and collapses in the wild — and lets the mathematics
+emerge from the problem rather than the other way around. The examples are
+modern on purpose: single-cell sequencing, neural networks and gradient descent,
+and language models applied to biology.
 
-It is built for two people who happen to be the same person on different days:
+It is built for three readers:
 
-- **The learner**, building durable intuition for the concepts that quietly
-  underpin all of quantitative biology and machine learning.
-- **The candidate**, three days from a technical interview, who needs to
-  explain what a *p*-value actually is, choose the right normalization, read a
-  residual plot, or reason out loud about why a model is overfitting — and
-  wants to have *seen the question before*.
+- **Graduate students** learning statistics and bioinformatics, who want
+  intuition that outlasts the exam.
+- **Late-stage PhDs and postdocs** preparing for hard technical interviews at
+  top companies and labs — people who need to explain what a *p*-value actually
+  is, choose the right normalization for scRNA-seq, read a residual plot, or
+  reason out loud about why a model is overfitting, and who want to have *seen
+  the question before*.
+- **Working professionals** who need a fast, trustworthy refresher on a key
+  concept or workflow before a meeting, an analysis, or a screen.
 
-Throughout, one lens keeps the material honest: **what would a technical
-interviewer — say, on a research science team building frontier models — press
-you on?** Not trivia. The reasoning: *why this method, what does it assume,
-how would you know if it broke, and what would you plot to find out?*
+Throughout, one lens keeps the material honest: **what would a sharp technical
+interviewer press you on?** Not trivia. The reasoning: *why this method, what
+does it assume, how would you know if it broke, and what would you plot to find
+out?*
 
 ## How to use this
 
@@ -86,16 +91,16 @@ using language models to find patterns in data. See the
 </a>
 <a class="track-card track-d" href="roadmap.qmd#track-d">
   <div class="tc-eyebrow">Track D</div>
-  <div class="tc-title">ML fundamentals</div>
-  <p class="tc-desc">The ML workflow as decision flowcharts: framing, model
-  choice, evaluation, metrics, and diagnostic plots.</p>
+  <div class="tc-title">ML: workflow → neural nets</div>
+  <p class="tc-desc">The ML workflow as flowcharts, model evaluation,
+  dimensionality reduction, gradient descent, and neural networks.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-e" href="roadmap.qmd#track-e">
   <div class="tc-eyebrow">Track E</div>
-  <div class="tc-title">Toward LLMs in science</div>
-  <p class="tc-desc">Embeddings, what a language model learns, and using LLMs
-  to find patterns in scientific data — the destination.</p>
+  <div class="tc-title">LLMs & AI in biology</div>
+  <p class="tc-desc">Embeddings, what a language model learns, and foundation
+  models for biological data — the destination.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 :::
