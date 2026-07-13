@@ -1,0 +1,183 @@
+---
+title: "Interview Problems — Bayesian Reasoning"
+subtitle: "The conceptual questions an interviewer actually asks, and one whiteboard problem worked out loud."
+---
+
+::: {.field-notes-band}
+<div class="fn-eyebrow">Lesson 01 · Interview preparation</div>
+<div class="fn-title">At the Whiteboard: Bayesian Reasoning</div>
+<div class="fn-meta">
+  <span class="fn-tag">Conceptual questions</span>
+  <span class="fn-tag">Model answers</span>
+  <span class="fn-tag">One live whiteboard problem</span>
+</div>
+:::
+
+The [exercise set](bayes-in-action.qmd#exercise-set) drills the *computation*.
+This page drills the *conversation* — the questions a technical interviewer asks
+to find out whether you understand what you're computing. Read each question,
+say your answer out loud before you expand the model answer, and pay attention
+to the **reasoning**, not just the punchline. Interviewers are listening for how
+you think.
+
+::: {.lens}
+Across these questions, the interviewer is probing one thing: *do you treat a
+number as an answer, or as a claim that has assumptions and can be wrong?* The
+strongest candidates state their assumptions unprompted, name the base rate,
+and volunteer a sensitivity check. That habit is worth more than any single
+correct number.
+:::
+
+## Conceptual questions
+
+::: {.callout-important collapse="true"}
+## Q1 — Define a prior, a likelihood, and a posterior in one breath each.
+**Model answer.** The **prior** $P(H)$ is what you believe about a hypothesis
+before seeing the new evidence — often the base rate. The **likelihood**
+$P(E\mid H)$ is how well the evidence is predicted by that hypothesis (note the
+direction of the bar: probability *of the evidence*, *given* the hypothesis).
+The **posterior** $P(H\mid E)$ is your updated belief after folding the evidence
+into the prior. Bayes' theorem is just the rule that combines them:
+$P(H\mid E)\propto P(E\mid H)\,P(H)$.
+
+*What they're checking:* that you don't confuse the likelihood
+$P(E\mid H)$ with the posterior $P(H\mid E)$ — the single most common error in
+the whole subject.
+:::
+
+::: {.callout-important collapse="true"}
+## Q2 — A diagnostic is "99% accurate." A patient tests positive. Is their probability of disease 99%?
+**Model answer.** No — and the word "accurate" is doing suspicious work. You
+need three numbers, not one: the **sensitivity**, the **specificity**, and,
+above all, the **prevalence** (base rate). For a rare disease, false positives
+come from a huge healthy population and easily outnumber true positives, so the
+posterior can be far below 99% — often under 20%. The correct response is to ask
+for the prevalence and then count out of a concrete population (say 10,000).
+
+*What they're checking:* the base-rate reflex. Immediately asking "how common is
+the disease?" is the answer they want to hear.
+:::
+
+::: {.callout-important collapse="true"}
+## Q3 — Your classifier has 95% sensitivity and 95% specificity. You deploy it to flag a condition present in 1 of every 500 samples. What precision do you expect?
+**Model answer.** Precision *is* $P(\text{true}\mid\text{flagged})$ — a Bayesian
+posterior. Per 100,000 samples: 200 positives → 190 true positives; 99,800
+negatives → 4,990 false positives. Precision $= 190/(190+4990)\approx 3.7\%$.
+Roughly 26 false alarms per real hit. Mitigations: raise the decision threshold
+(trade recall for precision), **enrich** the screened population to lift the
+prior, add a confirmatory second stage, or report PR-AUC rather than ROC-AUC
+because ROC hides this on imbalanced data.
+
+*What they're checking:* that you connect "base rate" to the very concrete
+production metric of precision, and that you have real mitigations — not just
+a lament.
+:::
+
+::: {.callout-important collapse="true"}
+## Q4 — What's the difference between a frequentist and a Bayesian answer to "does this drug work?"
+**Model answer.** The frequentist reports $P(\text{data at least this extreme}
+\mid \text{no effect})$ — a *p*-value — and controls long-run error rates; it
+never assigns a probability to the hypothesis itself. The Bayesian reports
+$P(\text{effect}\mid\text{data})$ directly, but must supply a prior to do so.
+With abundant data they usually converge; they diverge most when data is scarce
+or the prior is influential — and that's exactly when stating the prior
+explicitly is a virtue, not a weakness [@gelman2013].
+
+*What they're checking:* that you can hold both frameworks without tribalism,
+and that you know a *p*-value is not $P(H_0\mid\text{data})$.
+:::
+
+::: {.callout-important collapse="true"}
+## Q5 — How does Bayesian reasoning explain why "most published research findings are false"?
+**Model answer.** Treat each tested hypothesis as a diagnostic test. The
+**prior** is the fraction of tested hypotheses that are genuinely true (in an
+exploratory field, low). A "significant" result is a **positive test** with its
+own false-positive rate ($\alpha$) and true-positive rate (power). If few
+hypotheses are true and power is mediocre, the false positives dominate the
+significant results — so the posterior probability that a significant finding is
+real can fall below 50% [@ioannidis2005]. Bias and multiple testing push it
+lower still. This is precisely the rare-disease figure, relabeled, and it
+motivates false-discovery-rate control [@benjamini1995].
+
+*What they're checking:* that you can transfer the base-rate argument from
+diagnostics to inference — the bridge to the multiple-testing lesson.
+:::
+
+::: {.callout-important collapse="true"}
+## Q6 — When would you *not* trust a Bayesian analysis?
+**Model answer.** When the conclusion is driven by the prior rather than the
+data, and the prior is not defensible. The honest tool is a **sensitivity
+analysis**: vary the prior across a reasonable range and report how much the
+posterior moves. If the conclusion flips under plausible priors, say the
+evidence is weak. Also be wary of priors smuggled in as "objective" defaults,
+and of likelihoods that assume an independence that doesn't hold (the naive-Bayes
+overconfidence problem).
+
+*What they're checking:* intellectual honesty. Volunteering the failure mode of
+your own method is a strong signal.
+:::
+
+## The whiteboard problem
+
+Here is a problem posed the way it would be in a live interview — vague on
+purpose, so that *asking the right clarifying question is part of the answer*.
+Try it before expanding the walkthrough.
+
+::: {.whiteboard}
+### Prompt
+
+> "We built a screen for a rare regulatory variant. It calls a variant present
+> or absent. On our validation set it's 98% sensitive and 96% specific. A
+> collaborator runs it genome-wide and is thrilled — thousands of hits. Should
+> they be? Walk me through how you'd think about it."
+
+::: {.callout-tip collapse="true"}
+## Model train of thought (expand only after trying)
+**1. Ask for the base rate.** "Rare" is the whole game. If the variant occurs at,
+say, 1 in 10,000 sites, that's the prior. Nothing else matters until I have it.
+
+**2. Count out of a concrete population.** Per 1,000,000 sites at a 1/10,000 base
+rate: 100 true sites → 98 true positives. 999,900 non-sites → 4% false-positive
+rate → ~39,996 false positives. So ~40,094 total hits, of which 98 are real.
+
+**3. State the posterior / precision.** $P(\text{real}\mid\text{hit}) \approx
+98/40{,}094 \approx 0.24\%$. The "thousands of hits" are almost entirely false
+positives. The collaborator's excitement is measuring the false-positive rate,
+not a discovery.
+
+**4. Anticipate the objection.** "But it's 96% specific!" — right, and at this
+base rate a 4% false-positive rate applied to a million sites still buries 98
+true hits. Specificity has to be extraordinary (or the search space small) for
+rare-event precision to be usable.
+
+**5. Offer mitigations, ranked.** (a) Reduce the search space with prior
+biology — restrict to plausible regions, which raises the effective prior.
+(b) Add an orthogonal confirmatory assay: each independent positive multiplies
+the odds by its likelihood ratio, and two cheap tests can move 0.24% to
+something trustworthy. (c) Raise the calling threshold and quantify the
+recall you sacrifice. (d) Report expected precision up front so no one mistakes
+40,000 hits for 40,000 findings.
+
+**6. Close with the sensitivity check.** "If the true base rate is anywhere from
+1 in 1,000 to 1 in 100,000, precision ranges from roughly 2.4% down to 0.02% —
+so my conclusion is robust: without a confirmatory step, these hits can't be
+trusted." Naming that range unprompted is the mark of a strong answer.
+:::
+:::
+
+::: {.lens}
+Notice what carried that answer: not the arithmetic (which is a 2×2 table) but
+the *moves* — ask for the base rate, count concretely, translate to precision,
+rank mitigations, end with sensitivity. Those five moves generalize to almost
+every applied-statistics interview question. Bank them.
+:::
+
+::: {.lesson-nav}
+<span>[← Bayes in Action](bayes-in-action.qmd)</span>
+<span>[Back to the lesson plan](index.qmd)</span>
+:::
+
+## References {.unnumbered}
+
+::: {#refs}
+:::

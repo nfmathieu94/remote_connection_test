@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="9" fill="#23262d"/>
+  <!-- notebook rule lines -->
+  <g stroke="#3a3f49" stroke-width="1.4">
+    <line x1="14" y1="20" x2="50" y2="20"/>
+    <line x1="14" y1="30" x2="50" y2="30"/>
+    <line x1="14" y1="40" x2="50" y2="40"/>
+    <line x1="14" y1="50" x2="50" y2="50"/>
+  </g>
+  <!-- margin rule -->
+  <line x1="21" y1="12" x2="21" y2="52" stroke="#b0472e" stroke-width="1.6"/>
+  <!-- a rising posterior curve, the site's motif -->
+  <path d="M14 48 C 26 47, 30 24, 40 21 S 50 16, 50 15"
+        fill="none" stroke="#e0b35c" stroke-width="2.6"
+        stroke-linecap="round"/>
+  <circle cx="40" cy="21" r="2.6" fill="#5a6f3f"/>
+</svg>

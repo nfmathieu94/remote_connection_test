@@ -1,11 +1,21 @@
 ---
 title: "Bayes in Action"
-subtitle: "Worked modern examples and the exercise set"
+subtitle: "Worked examples you can check by hand, an interactive explorer, and the exercise set."
 ---
 
+::: {.field-notes-band}
+<div class="fn-eyebrow">Lesson 01 · Worked examples &amp; exercises</div>
+<div class="fn-title">Bayes in Action</div>
+<div class="fn-meta">
+  <span class="fn-tag">Pencil-and-paper checkable</span>
+  <span class="fn-tag">Interactive explorer</span>
+  <span class="fn-tag">8 exercises + solutions</span>
+</div>
+:::
+
 Every example on this page can be checked with pencil-and-paper arithmetic.
-That is deliberate: if you can't count your way to the answer, you don't get
-to trust the formula.
+That is deliberate: if you can't count your way to the answer, you don't get to
+trust the formula.
 
 ## Worked example 1 — The positive test result
 
@@ -25,17 +35,148 @@ You test positive. How worried should you be?
 | **Healthy (99%)** | 495 | 9,405 | 9,900 |
 | **Total** | **590** | 9,410 | 10,000 |
 
-Everyone in your situation — a positive result — is one of the **590** people
-in the first column. Of those, only **95** are actually sick:
+Everyone in your situation — a positive result — is one of the **590** people in
+the first column. Of those, only **95** are actually sick:
 
 $$P(\text{sick} \mid \text{positive}) = \frac{95}{590} \approx 16\%$$
 
-A "95% accurate" test, and the positive result means a 16% chance of disease.
-The false positives (495) outnumber the true positives (95) five to one,
-because the healthy population is 99 times larger than the sick one. **When
-the condition is rare, false positives dominate.** This is why screening
-guidelines care so much about who gets screened: the same test applied to a
-high-risk group (higher prior) produces far more trustworthy positives.
+A "95% accurate" test, and a positive result still means only a 16% chance of
+disease. The false positives (495) outnumber the true positives (95) five to
+one, because the healthy population is 99 times larger than the sick one.
+**When the condition is rare, false positives dominate.** This is why screening
+guidelines care so much about *who* gets screened: the same test applied to a
+high-risk group (a higher prior) produces far more trustworthy positives.
+
+## The interactive version {#the-interactive-version}
+
+Reading that once is not the same as *feeling* it. Below, the three dials of the
+problem are yours. Drag **prevalence** down toward a rare disease and watch the
+false positives swamp the true ones; push **specificity** toward 100% and watch
+trust in a positive result recover. The number that matters —
+$P(\text{sick}\mid\text{positive})$ — updates live.
+
+::: {.interactive-figure}
+::: {.ojs-title}
+Bayes posterior explorer — "I tested positive. Now what?"
+:::
+
+```{ojs}
+//| label: bayes-inputs
+viewof prevalence = Inputs.range([0.001, 0.5], {value: 0.01, step: 0.001, label: "Prevalence (base rate)"})
+```
+
+```{ojs}
+//| label: bayes-inputs-2
+viewof sensitivity = Inputs.range([0.50, 1.0], {value: 0.95, step: 0.005, label: "Sensitivity  P(+ | sick)"})
+```
+
+```{ojs}
+//| label: bayes-inputs-3
+viewof specificity = Inputs.range([0.50, 1.0], {value: 0.95, step: 0.005, label: "Specificity  P(− | healthy)"})
+```
+
+```{ojs}
+//| label: bayes-compute
+counts = {
+  const N = 10000;
+  const tp = prevalence * sensitivity * N;             // sick & positive
+  const fn = prevalence * (1 - sensitivity) * N;        // sick & negative
+  const fp = (1 - prevalence) * (1 - specificity) * N;  // healthy & positive
+  const tn = (1 - prevalence) * specificity * N;        // healthy & negative
+  const positives = tp + fp;
+  const posterior = positives > 0 ? tp / positives : 0;
+  return {N, tp, fn, fp, tn, positives, posterior};
+}
+```
+
+```{ojs}
+//| label: bayes-readout
+html`<div style="font-family: var(--bs-font-serif, serif); font-size: 1.15rem;
+     line-height:1.4; margin: 0.2rem 0 1rem;">
+  Out of <b>${counts.positives.toLocaleString(undefined,{maximumFractionDigits:0})}</b>
+  people who test positive (per 10,000 screened),
+  <b>${counts.tp.toLocaleString(undefined,{maximumFractionDigits:0})}</b> are truly sick.
+  <br>
+  <span style="font-size:1.9rem; color:${palette.oxide}; font-weight:700;">
+    P(sick&nbsp;|&nbsp;positive) = ${(counts.posterior*100).toFixed(1)}%
+  </span>
+</div>`
+```
+
+```{ojs}
+//| label: bayes-bar
+Plot.plot({
+  height: 118,
+  marginTop: 24,
+  marginLeft: 8,
+  marginRight: 8,
+  x: {label: "People who test positive (per 10,000 screened) →", grid: false},
+  y: {axis: null},
+  color: {
+    domain: ["Actually sick (true positive)", "Healthy (false positive)"],
+    range: [palette.oxide, palette.slate],
+    legend: true
+  },
+  marks: [
+    Plot.barX(
+      [
+        {group: "pos", who: "Actually sick (true positive)", n: counts.tp},
+        {group: "pos", who: "Healthy (false positive)", n: counts.fp}
+      ],
+      {y: "group", x: "n", fill: "who", order: ["Actually sick (true positive)"]}
+    ),
+    Plot.ruleX([0])
+  ]
+})
+```
+
+```{ojs}
+//| label: bayes-curve
+Plot.plot({
+  height: 240,
+  marginLeft: 52,
+  x: {label: "Prevalence (base rate) →", tickFormat: "%", grid: true},
+  y: {label: "↑ P(sick | positive)", tickFormat: "%", domain: [0, 1], grid: true},
+  marks: [
+    Plot.line(
+      d3.range(0.001, 0.5, 0.002).map(p => ({
+        p,
+        post: (p*sensitivity) / (p*sensitivity + (1-p)*(1-specificity))
+      })),
+      {x: "p", y: "post", stroke: palette.slate, strokeWidth: 2.5}
+    ),
+    Plot.dot([{p: prevalence, post: counts.posterior}],
+      {x: "p", y: "post", r: 6, fill: palette.oxide, stroke: "white", strokeWidth: 1.5}),
+    Plot.text([{p: prevalence, post: counts.posterior}], {
+      x: "p", y: "post", text: d => `${(d.post*100).toFixed(0)}%`,
+      dy: -14, fontWeight: 700, fill: palette.oxide
+    })
+  ]
+})
+```
+
+```{ojs}
+//| label: bayes-palette
+//| echo: false
+// Match the figure to the site's field-notebook palette.
+palette = ({oxide: "#b0472e", slate: "#3d5a6c", moss: "#5a6f3f", ochre: "#c98a26"})
+```
+
+*The curve is the whole lesson in one line: hold the test fixed and simply vary
+how common the disease is. A test that is trustworthy for a common condition
+becomes nearly useless for a rare one — not because the test changed, but
+because the prior did.*
+:::
+
+::: {.lens}
+An interviewer's follow-up to this figure is almost always the same: *"Your
+classifier has 95% sensitivity and 95% specificity and you're deploying it to
+flag a condition that affects 1 in 500 samples. What precision should you
+expect, and what will you do about it?"* This figure **is** that question —
+precision is exactly $P(\text{sick}\mid\text{positive})$. Answer: dismal
+precision, and you either raise the threshold, enrich the screened population,
+or add a confirmatory second test. That last option is the next section.
+:::
 
 ### The second test — updating again
 
@@ -47,12 +188,12 @@ again (assume the second test errs independently):
 
 $$P(\text{sick} \mid \text{two positives}) = \frac{90.25}{90.25 + 24.75} \approx 78\%$$
 
-Two cheap imperfect tests took you from 1% → 16% → 78%. Evidence compounds.
+Two cheap, imperfect tests took you from 1% → 16% → 78%. Evidence compounds.
 
 ### The same journey in odds form
 
-The odds form makes the compounding visible. A positive result multiplies
-your odds by the **likelihood ratio**
+The odds form makes the compounding visible. A positive result multiplies your
+odds by the **likelihood ratio**
 $LR^+ = \frac{\text{sensitivity}}{1 - \text{specificity}} = \frac{0.95}{0.05} = 19$:
 
 $$\underbrace{\frac{1}{99}}_{\text{prior odds}} \times 19 \times 19 = \frac{361}{99} \approx 3.65 \;\Rightarrow\; \frac{3.65}{1+3.65} \approx 78\%$$
@@ -83,70 +224,72 @@ $$\text{posterior odds} = 1 \times 20 \times 6 = 120 \;\Rightarrow\; P(\text{spa
 
 $$120 \times 0.1 = 12 \;\Rightarrow\; P(\text{spam}) = \frac{12}{13} \approx 92\%$$
 
-Notice that evidence can push in both directions, and that no single word
-decides anything — the verdict is the *product* of many small nudges. The
-"naive" in naive Bayes is the assumption that words appear independently
-given spam/not-spam. It's false ("free" and "winner" travel together), which
-makes the filter overconfident — but the *ranking* of spam vs. not-spam
-survives, which is why this 1990s-era method still ships in production
-systems today.
+Evidence can push in both directions, and no single word decides anything — the
+verdict is the *product* of many small nudges. The "naive" in naive Bayes is the
+assumption that words appear independently given spam/not-spam. It's false
+("free" and "winner" travel together), which makes the filter overconfident —
+but the *ranking* of spam vs. not-spam survives, which is why this 1990s-era
+method still ships in production systems today.
 
-::: {.callout-tip}
-## Why this generalizes
+::: {.specimen}
+**One pattern, many costumes**
+
 Medical retesting and spam filtering are the same computation: **prior odds ×
-a likelihood ratio per piece of evidence**. Election forecasting is the same
-computation with polls as evidence. The Air France 447 search was the same
-computation over a map grid — each searched-and-empty cell multiplied that
-cell's odds of containing the wreck by a likelihood ratio *below 1*. One
-pattern, many costumes.
+a likelihood ratio per piece of evidence.** Election forecasting is the same
+computation with polls as evidence. The Air France 447 search [@stone2014] was
+the same computation over a map grid — each searched-and-empty cell multiplied
+that cell's odds of containing the wreck by a likelihood ratio *below 1*.
+Learn the pattern once and you own all of them.
 :::
 
 ## Exercise set
 
 Work each problem by counting first; use the formula only to check. Solutions
-are collapsed — genuinely attempt each one before looking.
+are collapsed — genuinely attempt each one before looking. For conceptual,
+interview-style questions, continue to the [Interview Problems](interview.qmd)
+page.
 
 ### 1. The breathalyzer
 
 One in 1,000 drivers on the road tonight is over the legal limit. A checkpoint
 breathalyzer catches 100% of drunk drivers but also reads positive for 5% of
-sober drivers. A driver blows positive. What's the probability they're
-actually over the limit?
+sober drivers. A driver blows positive. What's the probability they're actually
+over the limit?
 
 ::: {.callout-note collapse="true"}
 ## Solution
 Count 1,000 drivers: 1 drunk (tests positive) and 999 sober, of whom about 50
-(5%) falsely test positive. Of ~51 positives, 1 is drunk:
-$P \approx 1/51 \approx 2\%$. Even a "perfect at catching" test is swamped by
-false positives at a 0.1% base rate.
+(5%) falsely test positive. Of ~51 positives, 1 is drunk: $P \approx 1/51
+\approx 2\%$. Even a test that is *perfect at catching* drunk drivers is swamped
+by false positives at a 0.1% base rate. (Set the explorer above to prevalence
+0.001, sensitivity 1.0, specificity 0.95 and read it off the bar.)
 :::
 
 ### 2. Mammography (the classic physician-survey problem)
 
-1% of women in a screening cohort have breast cancer. Mammography detects 90%
-of cancers and gives false positives 9% of the time. A woman screens positive
-— what's the probability she has cancer? (When Gigerenzer posed this to
-physicians, typical answers were 70–90%.)
+1% of women in a screening cohort have breast cancer. Mammography detects 90% of
+cancers and gives false positives 9% of the time. A woman screens positive —
+what's the probability she has cancer? (When Gigerenzer posed this to physicians,
+typical answers were 70–90% [@gigerenzer2007].)
 
 ::: {.callout-note collapse="true"}
 ## Solution
 Per 10,000: 100 with cancer → 90 true positives; 9,900 without → 891 false
-positives. $P = 90/981 \approx 9\%$. The physicians' typical answer was off
-by roughly a factor of ten.
+positives. $P = 90/981 \approx 9\%$. The physicians' typical answer was off by
+roughly a factor of ten.
 :::
 
 ### 3. The taxi cab problem (Kahneman & Tversky)
 
-85% of a city's cabs are Green, 15% are Blue. A hit-and-run witness says the
-cab was Blue, and testing shows the witness correctly identifies cab color
-80% of the time. What's the probability the cab was actually Blue?
+85% of a city's cabs are Green, 15% are Blue. A hit-and-run witness says the cab
+was Blue, and testing shows the witness correctly identifies cab color 80% of
+the time. What's the probability the cab was actually Blue?
 
 ::: {.callout-note collapse="true"}
 ## Solution
-Per 100 cabs: 15 Blue → witness says "Blue" for 12; 85 Green → witness
-wrongly says "Blue" for 17. $P = 12/29 \approx 41\%$. Despite a fairly
-reliable witness, the cab is *more likely Green* — the base rate is doing
-that work.
+Per 100 cabs: 15 Blue → witness says "Blue" for 12; 85 Green → witness wrongly
+says "Blue" for 17. $P = 12/29 \approx 41\%$. Despite a fairly reliable witness,
+the cab is *more likely Green* — the base rate is doing that work [@tversky1974].
 :::
 
 ### 4. Chaining evidence in odds form
@@ -159,22 +302,22 @@ their probability land?
 
 ::: {.callout-note collapse="true"}
 ## Solution
-$\frac{1}{99} \times 19 \times 0.053 \approx 0.0102$ odds
-→ $P \approx 1\%$. The two results essentially cancel ($19 \times 0.053 \approx 1$),
-returning the patient almost exactly to the prior. Conflicting evidence
-doesn't average — it multiplies.
+$\frac{1}{99} \times 19 \times 0.053 \approx 0.0102$ odds → $P \approx 1\%$. The
+two results essentially cancel ($19 \times 0.053 \approx 1$), returning the
+patient almost exactly to the prior. Conflicting evidence doesn't average — it
+multiplies.
 :::
 
 ### 5. Build the filter
 
-Using the word table from Worked Example 2, classify an email containing
-"free" and "meeting" (and neither of the other words). Start from 1:1 prior
-odds. Spam or not?
+Using the word table from Worked Example 2, classify an email containing "free"
+and "meeting" (and neither of the other words). Start from 1:1 prior odds. Spam
+or not?
 
 ::: {.callout-note collapse="true"}
 ## Solution
-$1 \times 6 \times 0.1 = 0.6$ odds → $P(\text{spam}) = 0.6/1.6 = 37.5\%$.
-Leans legitimate. A single business-y word outweighed "free."
+$1 \times 6 \times 0.1 = 0.6$ odds → $P(\text{spam}) = 0.6/1.6 = 37.5\%$. Leans
+legitimate. A single business-y word outweighed "free."
 :::
 
 ### 6. The prosecutor's fallacy
@@ -187,28 +330,28 @@ Bayesian analysis say?
 
 ::: {.callout-note collapse="true"}
 ## Solution
-The expert stated $P(\text{match} \mid \text{innocent})$; the prosecutor sold
-it as $P(\text{innocent} \mid \text{match})$. In a population of 10 million,
-about 10 innocent people match by chance, so *absent other evidence* the
-defendant is one of ~11 matching people: $P(\text{guilty} \mid \text{match})
-\approx 9\%$, not 99.9999%. Other evidence (opportunity, motive) enters as
-additional likelihood ratios — which is exactly how it should be argued.
+The expert stated $P(\text{match} \mid \text{innocent})$; the prosecutor sold it
+as $P(\text{innocent} \mid \text{match})$. In a population of 10 million, about
+10 innocent people match by chance, so *absent other evidence* the defendant is
+one of ~11 matching people: $P(\text{guilty} \mid \text{match}) \approx 9\%$,
+not 99.9999%. Other evidence (opportunity, motive) enters as additional
+likelihood ratios — which is exactly how it should be argued.
 :::
 
 ### 7. When the forecast "fails"
 
-A forecaster gave a candidate a 29% chance of winning; the candidate won.
-A pundit declares the model "catastrophically wrong." Write two or three
-sentences evaluating the pundit's claim, using the concept of calibration.
+A forecaster gave a candidate a 29% chance of winning; the candidate won. A
+pundit declares the model "catastrophically wrong." Write two or three sentences
+evaluating the pundit's claim, using the concept of calibration.
 
 ::: {.callout-note collapse="true"}
 ## Solution
-One outcome cannot falsify a 29% forecast — events with 29% probability
-should happen about 29% of the time, roughly two of every seven such
-forecasts. The model is judged across *many* forecasts: if its "29%" events
-happen far more or less often than 29%, *that* is evidence of miscalibration.
-(A useful check on the pundit: would they have credited the model as
-"catastrophically right" had the 71% side won?)
+One outcome cannot falsify a 29% forecast — events with 29% probability should
+happen about 29% of the time, roughly two of every seven such forecasts. The
+model is judged across *many* forecasts: if its "29%" events happen far more or
+less often than 29%, *that* is evidence of miscalibration. (A useful check on
+the pundit: would they have credited the model as "catastrophically right" had
+the 71% side won?)
 :::
 
 ### 8. Find one in the wild (mini-project)
@@ -221,9 +364,19 @@ rate. State how sensitive your conclusion is to the prior you chose.
 
 ::: {.callout-note collapse="true"}
 ## Grading guide
-Full credit requires: (a) correct identification of which conditional the
-source reported, (b) an explicit, defended base rate, (c) a correct posterior,
-and (d) a sensitivity statement ("under priors from X to Y, the posterior
-ranges from…"). The sensitivity statement is the part most learners skip and
-the part that most resembles real statistical practice.
+Full credit requires: (a) correct identification of which conditional the source
+reported, (b) an explicit, defended base rate, (c) a correct posterior, and
+(d) a sensitivity statement ("under priors from X to Y, the posterior ranges
+from…"). The sensitivity statement is the part most learners skip and the part
+that most resembles real statistical practice.
+:::
+
+::: {.lesson-nav}
+<span>[← Background Primer](background.qmd)</span>
+<span>[Interview Problems →](interview.qmd)</span>
+:::
+
+## References {.unnumbered}
+
+::: {#refs}
 :::

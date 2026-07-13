@@ -1,25 +1,41 @@
-/* Site-wide styling tweaks on top of the flatly/darkly themes */
+/* Field-notebook utilities that live better as plain CSS than SCSS.
+   The main theme is in theme/field-notebook.scss (+ -dark.scss). */
 
-h1, h2 {
-  letter-spacing: -0.01em;
-}
-
-.sidebar-title {
-  font-weight: 700;
-}
-
-/* Make callouts a little roomier — they carry a lot of the teaching load */
-.callout {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-/* Lesson metadata table on lesson index pages */
-.lesson-meta table {
-  width: 100%;
-}
+/* Lesson-metadata table on lesson index pages */
+.lesson-meta table { width: 100%; border-collapse: collapse; }
+.lesson-meta td { border: none; padding: 0.3rem 0; vertical-align: top; }
 .lesson-meta td:first-child {
-  font-weight: 600;
+  font-family: var(--bs-font-sans-serif);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   white-space: nowrap;
-  padding-right: 1rem;
+  padding-right: 1.2rem;
+  color: var(--bs-secondary-color, #7c7466);
+}
+
+/* A quiet "next / prev in this lesson" strip */
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-border-color);
+  font-family: var(--bs-font-sans-serif);
+  font-size: 0.85rem;
+}
+
+/* Definition-list styling for cheat sheets */
+dl.cheat dt { font-weight: 700; font-family: var(--bs-font-sans-serif); }
+dl.cheat dd { margin-bottom: 0.6rem; }
+
+/* Keep wide OJS figures from forcing horizontal page scroll */
+.interactive-figure > * { max-width: 100%; }
+.interactive-figure table { display: block; overflow-x: auto; }
+
+@media print {
+  .field-notes-band { box-shadow: none; }
+  .whiteboard { background: #f0f0f0 !important; color: #000 !important; }
 }

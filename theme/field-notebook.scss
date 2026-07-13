@@ -1,0 +1,546 @@
+/*-- scss:functions --*/
+
+// Small helper: mix a color toward paper for muted tints.
+@function fade-to-paper($color, $amount) {
+  @return mix($paper, $color, $amount);
+}
+
+/*-- scss:defaults --*/
+
+// ─────────────────────────────────────────────────────────────────────────
+//  FIELD NOTEBOOK  ·  light ("day desk")
+//  A statistics field notebook: warm paper, ink, oxide-red & moss accents.
+// ─────────────────────────────────────────────────────────────────────────
+
+// Palette ------------------------------------------------------------------
+$paper:        #f4efe4;   // warm notebook paper
+$paper-2:      #ede6d6;   // slightly deeper paper (cards, sidebars)
+$paper-edge:   #e3dac4;   // ruled-margin / edge tint
+$ink:          #23262d;   // primary ink
+$ink-soft:     #4c4f57;   // secondary ink
+$ink-faint:    #7c7466;   // captions, metadata
+$oxide:        #b0472e;   // oxide red — primary accent
+$oxide-deep:   #8f3823;
+$moss:         #5a6f3f;   // moss green — secondary accent
+$slate-blue:   #3d5a6c;   // faded field-blue — tertiary
+$ochre:        #c98a26;   // annotation highlighter
+$rule:         #d8ccb2;   // hairline rules
+
+// Bootstrap greyscale remapped onto paper/ink -------------------------------
+$white:    $paper;
+$black:    $ink;
+$gray-100: $paper-2;
+$gray-200: $paper-edge;
+$gray-300: $rule;
+$gray-600: $ink-faint;
+$gray-800: $ink-soft;
+$gray-900: $ink;
+
+// Semantic ------------------------------------------------------------------
+$primary:   $oxide;
+$secondary: $slate-blue;
+$success:   $moss;
+$info:      $slate-blue;
+$warning:   $ochre;
+$danger:    $oxide-deep;
+$light:     $paper-2;
+$dark:      $ink;
+
+$body-bg:    $paper;
+$body-color: $ink;
+$link-color: $oxide;
+$link-hover-color: $oxide-deep;
+
+// Typography ---------------------------------------------------------------
+// Self-contained: high-quality system stacks, no external font fetches.
+$font-family-serif: "Iowan Old Style", "Palatino Linotype", Palatino,
+                    "Book Antiqua", "Charter", Georgia, "Times New Roman", serif;
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-monospace: "SFMono-Regular", "JetBrains Mono", "Menlo",
+                    "Consolas", "Liberation Mono", monospace;
+
+$headings-font-family: $font-family-serif;
+$headings-font-weight: 700;
+$headings-color: $ink;
+
+$font-size-root: 18px;
+$line-height-base: 1.62;
+$headings-line-height: 1.18;
+
+// Structural ---------------------------------------------------------------
+$border-radius: 3px;
+$border-radius-lg: 4px;
+$border-color: $rule;
+
+// Code ---------------------------------------------------------------------
+$code-color: $oxide-deep;
+$code-bg: fade-to-paper($ochre, 88%);
+$code-block-bg: #fbf8f0;
+$code-block-border-left: $oxide;
+
+// Quarto chrome ------------------------------------------------------------
+$navbar-bg: $ink;
+$navbar-fg: $paper;
+$navbar-hl: $ochre;
+$sidebar-bg: $paper-2;
+$sidebar-fg: $ink-soft;
+$toc-color: $ink-faint;
+$toc-active-border: $oxide;
+
+$table-border-color: $rule;
+$table-striped-bg: rgba($paper-edge, 0.5);
+
+$blockquote-border-color: $moss;
+$blockquote-color: $ink-soft;
+
+/*-- scss:mixins --*/
+
+@mixin ruled-paper($dot: rgba(35, 38, 45, 0.05), $size: 24px) {
+  background-image: radial-gradient($dot 1px, transparent 1.4px);
+  background-size: $size $size;
+  background-position: -8px -8px;
+}
+
+@mixin field-tag($bg, $fg: $paper) {
+  display: inline-block;
+  font-family: $font-family-sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $fg;
+  background: $bg;
+  padding: 0.18em 0.7em;
+  border-radius: 2px;
+}
+
+/*-- scss:rules --*/
+
+// ── Page atmosphere ───────────────────────────────────────────────────────
+body {
+  @include ruled-paper();
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+// Content column reads like a page, not a dashboard.
+main.content,
+#quarto-document-content {
+  hyphens: none;
+}
+
+// ── Headings: serif, tight, with a hand-ruled underline on h2 ─────────────
+h1, .h1 { letter-spacing: -0.015em; }
+h2, .h2 {
+  letter-spacing: -0.01em;
+  margin-top: 2.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid $rule;
+  position: relative;
+}
+// short oxide "pen stroke" over the ruled line
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 2.4rem;
+  height: 2px;
+  background: $oxide;
+}
+h3, .h3 { color: $ink-soft; letter-spacing: -0.005em; }
+
+// Lead paragraph / subtitle
+.subtitle, p.subtitle {
+  font-family: $font-family-serif;
+  font-style: italic;
+  color: $ink-soft;
+  font-size: 1.28rem;
+  line-height: 1.4;
+}
+
+// Links: understated ink underline that warms to oxide on hover
+a {
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba($oxide, 0.4);
+}
+a:hover { text-decoration-color: $oxide; }
+
+// ── Title block: the "Field Notes" band ───────────────────────────────────
+#title-block-header .quarto-title-banner,
+.quarto-title-block {
+  margin-bottom: 1.5rem;
+}
+#title-block-header {
+  border-bottom: 3px double $ink;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+// ── Navbar: black ink bar with a torn-tape ochre accent ───────────────────
+.navbar {
+  border-bottom: 3px solid $oxide;
+  font-family: $font-family-sans-serif;
+}
+.navbar-brand {
+  font-family: $font-family-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.navbar .navbar-nav .nav-link {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+// ── Sidebar: looks like tabbed notebook dividers ──────────────────────────
+.sidebar-navigation .sidebar-item .sidebar-item-container {
+  border-left: 2px solid transparent;
+}
+.sidebar-navigation .sidebar-item .sidebar-link.active {
+  border-left: 2px solid $oxide;
+  color: $oxide;
+  font-weight: 600;
+}
+.sidebar-title {
+  font-family: $font-family-serif;
+  font-weight: 700;
+}
+div.sidebar-item-container .active,
+div.sidebar-item-container .sidebar-link:hover {
+  color: $oxide;
+}
+
+// ── Blockquote: a pinned marginal remark ──────────────────────────────────
+blockquote {
+  font-family: $font-family-serif;
+  font-style: italic;
+  border-left: 3px solid $moss;
+  background: linear-gradient(90deg, rgba($moss, 0.06), transparent 60%);
+  padding: 0.6rem 1.1rem;
+}
+
+// ── Tables: ledger-like, ruled ────────────────────────────────────────────
+table {
+  font-variant-numeric: tabular-nums;
+}
+thead th {
+  border-bottom: 2px solid $ink !important;
+  font-family: $font-family-sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $ink-soft;
+}
+
+// ── Code: taped-in specimen of machine output ─────────────────────────────
+div.sourceCode, pre.sourceCode {
+  border: 1px solid $rule;
+  border-left: 3px solid $oxide;
+  border-radius: $border-radius;
+}
+code:not(.sourceCode) {
+  padding: 0.12em 0.35em;
+  border-radius: 2px;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  CALLOUTS  ·  restyled as field-notebook artifacts
+// ══════════════════════════════════════════════════════════════════════════
+.callout {
+  border: 1px solid $rule;
+  border-radius: $border-radius-lg;
+  background: #fbf8f0;
+  box-shadow: 2px 2px 0 rgba($ink, 0.06);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.callout .callout-title {
+  font-family: $font-family-serif;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.callout.callout-style-default > .callout-header {
+  background: transparent;
+  border-bottom: 1px dashed $rule;
+}
+
+// Note → moss "observation"
+.callout-note { border-left: 5px solid $moss; }
+.callout-note .callout-icon::before { color: $moss; }
+
+// Tip → ochre "habit / heuristic"
+.callout-tip { border-left: 5px solid $ochre; }
+
+// Warning → oxide "watch out"
+.callout-warning { border-left: 5px solid $oxide; }
+
+// Important → slate "matters"
+.callout-important { border-left: 5px solid $slate-blue; }
+
+// ── SPECIMEN LABEL — for key concepts / definitions ───────────────────────
+// Usage:  ::: {.callout-note .specimen}  or a bare  ::: {.specimen}
+.specimen, .callout.specimen {
+  position: relative;
+  border: 1.5px solid $ink;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba($ochre, 0.05),
+      rgba($ochre, 0.05) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    #fbf8f0;
+  box-shadow: 3px 3px 0 rgba($ink, 0.12);
+  padding: 1rem 1.15rem 1.1rem;
+  margin: 1.8rem 0;
+}
+.specimen::before {
+  @include field-tag($ink);
+  content: "Specimen";
+  position: absolute;
+  top: -0.75rem;
+  left: 1rem;
+}
+// round "stamp" in the corner
+.specimen::after {
+  content: "S · I";
+  position: absolute;
+  top: 0.7rem;
+  right: 0.9rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid rgba($oxide, 0.55);
+  border-radius: 50%;
+  color: rgba($oxide, 0.6);
+  font-family: $font-family-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transform: rotate(-12deg);
+  letter-spacing: 0.02em;
+}
+.specimen > .callout-header .callout-title-container::before,
+.specimen > p:first-child strong:first-child { color: $ink; }
+
+// ── WHITEBOARD — interview question block ─────────────────────────────────
+// Usage:  ::: {.whiteboard}  ### The question  … collapsible solution inside
+.whiteboard {
+  position: relative;
+  border: none;
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, #21252b, #1b1e23);
+  color: #e9e4d6;
+  padding: 1.5rem 1.4rem 1.3rem;
+  margin: 2rem 0;
+  box-shadow: inset 0 0 0 6px rgba(255,255,255,0.03),
+              0 8px 22px rgba($ink, 0.28);
+  font-family: $font-family-sans-serif;
+}
+.whiteboard::before {
+  @include field-tag($oxide);
+  content: "At the whiteboard";
+  position: absolute;
+  top: -0.8rem;
+  left: 1.1rem;
+}
+.whiteboard h3, .whiteboard h4, .whiteboard p, .whiteboard li,
+.whiteboard strong { color: #eef0f2; }
+.whiteboard h3, .whiteboard h4 {
+  font-family: $font-family-serif;
+  border-bottom: none;
+  margin-top: 0.3rem;
+}
+.whiteboard h3::after, .whiteboard h4::after { display: none; }
+.whiteboard a { color: $ochre; text-decoration-color: rgba($ochre, .5); }
+.whiteboard code:not(.sourceCode) {
+  background: rgba(255,255,255,0.08);
+  color: #f3e6c8;
+}
+.whiteboard .callout { // nested "model answer" reads as a chalk aside
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.14);
+  color: #e9e4d6;
+}
+.whiteboard .callout .callout-title { color: $ochre; }
+.whiteboard blockquote { color: #cfd3d8; border-left-color: $ochre; }
+
+// ── LENS — "How this shows up in a Science interview" aside ────────────────
+.lens {
+  position: relative;
+  border: 1px solid rgba($slate-blue, 0.5);
+  border-left: 5px solid $slate-blue;
+  border-radius: $border-radius;
+  background: linear-gradient(180deg, rgba($slate-blue, 0.06), transparent);
+  padding: 1rem 1.15rem 0.9rem 1.15rem;
+  margin: 1.8rem 0;
+}
+.lens::before {
+  @include field-tag($slate-blue);
+  content: "◑ Interview lens";
+  position: absolute;
+  top: -0.7rem;
+  left: 0.9rem;
+}
+.lens > p:first-of-type { margin-top: 0.4rem; }
+
+// ── MARGIN NOTES — Quarto's native .column-margin, hand-note styled ───────
+.column-margin, .aside {
+  font-family: $font-family-sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: $ink-faint;
+  border-left: 2px solid $ochre;
+  padding-left: 0.7rem;
+}
+.column-margin a { font-size: inherit; }
+
+// ── Field Notes lesson header band (custom, used on lesson pages) ─────────
+.field-notes-band {
+  @include ruled-paper(rgba($paper, 0.5), 20px);
+  background-color: $ink;
+  color: $paper;
+  border-radius: 6px;
+  border: 1px solid $ink;
+  padding: 1.3rem 1.5rem;
+  margin: 0 0 2rem 0;
+  box-shadow: 0 6px 18px rgba($ink, 0.22);
+}
+.field-notes-band .fn-eyebrow {
+  @include field-tag($oxide);
+  margin-bottom: 0.6rem;
+}
+.field-notes-band .fn-title {
+  font-family: $font-family-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.12;
+  color: $paper;
+  margin: 0.2rem 0 0.5rem;
+}
+.field-notes-band .fn-meta {
+  font-family: $font-family-sans-serif;
+  font-size: 0.85rem;
+  color: rgba($paper, 0.72);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+.field-notes-band .fn-tag {
+  @include field-tag(rgba($paper, 0.14), $paper);
+  letter-spacing: 0.08em;
+}
+
+// ── Track / lesson cards for the homepage & roadmap ───────────────────────
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 1.1rem;
+  margin: 1.6rem 0 2.4rem;
+}
+.track-card {
+  display: block;
+  position: relative;
+  border: 1px solid $rule;
+  border-top: 4px solid $oxide;
+  border-radius: 4px;
+  background: #fbf8f0;
+  padding: 1.1rem 1.2rem 1.2rem;
+  text-decoration: none !important;
+  color: $ink;
+  box-shadow: 2px 2px 0 rgba($ink, 0.05);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.track-card:hover {
+  transform: translate(-1px, -2px);
+  box-shadow: 4px 5px 0 rgba($ink, 0.09);
+}
+.track-card.track-b { border-top-color: $moss; }
+.track-card.track-c { border-top-color: $slate-blue; }
+.track-card.track-d { border-top-color: $ochre; }
+.track-card.track-e { border-top-color: $ink; }
+.track-card .tc-eyebrow {
+  font-family: $font-family-sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $ink-faint;
+}
+.track-card .tc-title {
+  font-family: $font-family-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 0.25rem 0 0.4rem;
+  line-height: 1.2;
+}
+.track-card .tc-desc {
+  font-family: $font-family-sans-serif;
+  font-size: 0.86rem;
+  color: $ink-soft;
+  margin: 0;
+}
+.track-card .tc-status {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: $font-family-sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $moss;
+}
+.track-card .tc-status.planned { color: $ink-faint; }
+
+// ── OJS interactive figure frame ──────────────────────────────────────────
+.ojs-in-a-box, .interactive-figure {
+  border: 1.5px dashed $slate-blue;
+  border-radius: 6px;
+  background: #fbf8f0;
+  padding: 1.1rem 1.2rem 1.3rem;
+  margin: 1.8rem 0;
+  position: relative;
+}
+.interactive-figure::before {
+  @include field-tag($slate-blue);
+  content: "Interactive · drag to explore";
+  position: absolute;
+  top: -0.7rem;
+  left: 0.9rem;
+}
+.interactive-figure .ojs-title {
+  font-family: $font-family-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0.3rem 0 0.8rem;
+}
+// Observable inputs, tinted to the palette
+form .oi-slider input[type="range"],
+input[type="range"] { accent-color: $oxide; }
+
+// ── Footer ────────────────────────────────────────────────────────────────
+.nav-footer, #quarto-footer {
+  border-top: 3px double $ink;
+  font-family: $font-family-sans-serif;
+  font-size: 0.82rem;
+  color: $ink-faint;
+}
+
+// ── Small niceties ────────────────────────────────────────────────────────
+::selection { background: rgba($ochre, 0.32); }
+hr {
+  border: none;
+  border-top: 1px solid $rule;
+  height: 6px;
+  background-image: radial-gradient($rule 1px, transparent 1px);
+  background-size: 14px 6px;
+  opacity: 0.8;
+}
