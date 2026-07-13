@@ -1,0 +1,25 @@
+/* Site-wide styling tweaks on top of the flatly/darkly themes */
+
+h1, h2 {
+  letter-spacing: -0.01em;
+}
+
+.sidebar-title {
+  font-weight: 700;
+}
+
+/* Make callouts a little roomier — they carry a lot of the teaching load */
+.callout {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Lesson metadata table on lesson index pages */
+.lesson-meta table {
+  width: 100%;
+}
+.lesson-meta td:first-child {
+  font-weight: 600;
+  white-space: nowrap;
+  padding-right: 1rem;
+}

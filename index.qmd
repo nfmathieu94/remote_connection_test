@@ -1,0 +1,34 @@
+---
+title: "Statistics by Intuition"
+subtitle: "Lessons that build statistical thinking with modern, real-world examples"
+---
+
+## What this is
+
+A growing collection of statistics lessons designed around one belief: **intuition
+first, formalism second.** Every lesson starts with a real problem you might
+actually care about — a medical test result, a spam filter, an election forecast —
+and lets the math emerge from the problem rather than the other way around.
+
+Each lesson includes:
+
+- **A background primer** covering exactly the prerequisites you need — no more.
+- **A structured lesson plan** with learning objectives, modules, and time estimates.
+- **Worked modern examples** with real numbers you can check by hand.
+- **Exercises and discussion prompts** to test whether the intuition stuck.
+
+## Lessons
+
+| # | Lesson | Status |
+|---|--------|--------|
+| 1 | [Bayesian Statistics: Updating Beliefs with Evidence](lessons/01-bayesian-statistics/index.qmd) | Draft |
+
+More lessons are planned. Each lives in its own directory under `lessons/` and
+follows the same structure, so the collection stays navigable as it grows.
+
+## How to use this site
+
+Lessons are self-contained but ordered — later lessons may assume comfort with
+earlier ones. Within a lesson, start with the lesson plan page, detour into the
+background primer if anything feels shaky, then work through the examples page
+with a pencil. The exercises are where the learning actually happens.

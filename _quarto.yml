@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Statistics by Intuition"
+  description: "Intuition-first lessons in modern statistics"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: lessons/01-bayesian-statistics/index.qmd
+        text: Lessons
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - index.qmd
+      - section: "Lesson 1 · Bayesian Statistics"
+        contents:
+          - lessons/01-bayesian-statistics/index.qmd
+          - lessons/01-bayesian-statistics/background.qmd
+          - lessons/01-bayesian-statistics/bayes-in-action.qmd
+  page-footer:
+    center: "Statistics by Intuition · built with Quarto"
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    link-external-newwindow: true
