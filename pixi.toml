@@ -8,7 +8,7 @@ description = "Intuition-first statistics lessons published as a Quarto website"
 
 [tasks]
 render = "quarto render"
-preview = "quarto preview"
+preview = "quarto preview --no-browser"
 
 [dependencies]
 quarto = ">=1.9.38,<2"
