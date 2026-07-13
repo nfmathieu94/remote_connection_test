@@ -20,6 +20,17 @@ that does three jobs at once:
 Secondary purpose: a **personal reference database** the owner (Nathan) returns
 to when refreshing key concepts or prepping for interviews.
 
+## THE core thesis (the "main message of the book")
+
+**Real data does not tell you which method to use — recognizing the *shape* of
+the problem does.** The book's job is to build the reader's reflex for
+pattern-matching a messy real-world problem to the right *family* of solutions:
+"this is a base-rate problem," "this is a maximum-likelihood problem," "this
+sequence has memory → think Markov," "no closed form → simulate it (Monte
+Carlo)." Every lesson should end with the reader able to *recognize the problem
+type in the wild*. State/reinforce this thesis on the homepage, the roadmap, and
+in each lesson (each roadmap lesson has a "Reach for this when:" line).
+
 ## Audience (three readers)
 
 - **Graduate students** learning stats/bioinformatics — want durable intuition.
@@ -58,38 +69,47 @@ out. (Origin of the lens: "what would the Anthropic Science team ask?")
 | `<topic>-in-action.qmd` | Worked examples + interactive OJS figures |
 | `interview.qmd` | Rosalind-style problems + interviewer questions, model answers |
 
-## Curriculum (5 tracks, 18 lessons) — see `roadmap.qmd` for full detail
+## Curriculum (6 tracks, 21 lessons) — see `roadmap.qmd` for full detail
 
 **Track A · Inference foundations**
 1. Bayesian Statistics — **LIVE (complete)**
 2. p-values & Hypothesis Testing — *next up*
 3. t-tests & the t-distribution
 4. Confidence Intervals & the Bootstrap
-5. Multiple Comparisons & FDR (single-cell DE example)
-6. Statistical Power & Experimental Design (cells vs. samples trap)
+5. Maximum Likelihood Estimation (likelihood, log-lik, MLE=optimization;
+   MLE vs MAP vs Bayesian; links fwd to gradient descent)
+6. Multiple Comparisons & FDR (single-cell DE example)
+7. Statistical Power & Experimental Design (cells vs. samples trap)
 
 **Track B · Data transformation & normalization**
-7. Normalization & Standardization (z-score, log1p, CPM/TPM, size factors,
+8. Normalization & Standardization (z-score, log1p, CPM/TPM, size factors,
    SCTransform, VST, quantile; bulk + single-cell)
 
 **Track C · Regression & statistical models**
-8. Linear Regression (diagnostics, residual plots)
-9. Logistic Regression & GLMs (incl. negative-binomial for RNA-seq)
-10. Regularization & the Bias–Variance Tradeoff (bridge to ML)
+9. Linear Regression (diagnostics, residual plots)
+10. Logistic Regression & GLMs (incl. negative-binomial for RNA-seq)
+11. Regularization & the Bias–Variance Tradeoff (bridge to ML)
 
-**Track D · Machine learning: workflow → neural networks**
-11. The ML Workflow (decision flowcharts; train a tiny model)
-12. Model Evaluation & Selection (metrics, leakage, imbalance)
-13. Unsupervised Learning & Dimensionality Reduction (PCA/UMAP/clustering;
+**Track D · Probabilistic & computational modeling**
+12. Monte Carlo Methods & Simulation (permutation/randomization tests,
+    simulating nulls & power, MCMC intuition; bootstrap revealed as Monte Carlo)
+13. Markov Chains & Hidden Markov Models (Markov property; hidden states;
+    Viterbi & forward–backward; gene finding, CpG islands, profile HMMs,
+    base-calling)
+
+**Track E · Machine learning: workflow → neural networks**
+14. The ML Workflow (decision flowcharts; train a tiny model)
+15. Model Evaluation & Selection (metrics, leakage, imbalance)
+16. Unsupervised Learning & Dimensionality Reduction (PCA/UMAP/clustering;
     single-cell heavy)
-14. Gradient Descent & Optimization (the learning engine, visual/interactive)
-15. Neural Networks (logistic regression → deep nets; backprop intuition)
+17. Gradient Descent & Optimization (the learning engine; the *how* of MLE)
+18. Neural Networks (logistic regression → deep nets; backprop intuition)
 
-**Track E · LLMs & modern AI in biology**
-16. Embeddings & Similarity (words, proteins, cells as vectors)
-17. What a Language Model Actually Learns (tokens, attention, transformers —
+**Track F · LLMs & modern AI in biology**
+19. Embeddings & Similarity (words, proteins, cells as vectors)
+20. What a Language Model Actually Learns (tokens, attention, transformers —
     intuition, incl. protein sequences)
-18. LLMs & Foundation Models in Biology (ESM-style protein LMs, single-cell
+21. LLMs & Foundation Models in Biology (ESM-style protein LMs, single-cell
     foundation models, literature mining, evals, hallucination risks)
 
 ## Design system — "Field Notebook"

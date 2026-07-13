@@ -61,18 +61,27 @@ examples with a pencil, then close the loop on the interview page. The
 exercises are where the learning actually happens.
 :::
 
+## The one idea to take away
+
+If this site has a single thesis, it's this: **real data doesn't tell you which
+method to use — recognizing the *shape* of the problem does.** Is this a
+base-rate problem? A maximum-likelihood problem? Does this sequence have memory,
+so I should think Markov? Is there no closed form, so I should simulate it? Every
+lesson is built to train that reflex, so that when you meet unfamiliar data you
+reach for the right family of tools on instinct.
+
 ## The curriculum
 
-Five tracks that build on each other, ending where scientific work is heading:
-using language models to find patterns in data. See the
-[full roadmap](roadmap.qmd) for every planned lesson and how they connect.
+Six tracks that build on each other, ending where scientific work is heading:
+using language and foundation models to find patterns in biological data. See
+the [full roadmap](roadmap.qmd) for every planned lesson and how they connect.
 
 ::: {.track-grid}
 <a class="track-card track-a" href="roadmap.qmd#track-a">
   <div class="tc-eyebrow">Track A</div>
   <div class="tc-title">Inference foundations</div>
   <p class="tc-desc">Bayes, <em>p</em>-values, <em>t</em>-tests, confidence
-  intervals, multiple testing, power. The classic interview gauntlet.</p>
+  intervals, maximum likelihood, multiple testing, power.</p>
   <span class="tc-status">Lesson 1 live</span>
 </a>
 <a class="track-card track-b" href="roadmap.qmd#track-b">
@@ -91,14 +100,21 @@ using language models to find patterns in data. See the
 </a>
 <a class="track-card track-d" href="roadmap.qmd#track-d">
   <div class="tc-eyebrow">Track D</div>
+  <div class="tc-title">Probabilistic &amp; computational</div>
+  <p class="tc-desc">Monte Carlo &amp; simulation, Markov chains and hidden
+  Markov models — sequences with memory, and problems with no closed form.</p>
+  <span class="tc-status planned">Outlined</span>
+</a>
+<a class="track-card track-e" href="roadmap.qmd#track-e">
+  <div class="tc-eyebrow">Track E</div>
   <div class="tc-title">ML: workflow → neural nets</div>
   <p class="tc-desc">The ML workflow as flowcharts, model evaluation,
   dimensionality reduction, gradient descent, and neural networks.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
-<a class="track-card track-e" href="roadmap.qmd#track-e">
-  <div class="tc-eyebrow">Track E</div>
-  <div class="tc-title">LLMs & AI in biology</div>
+<a class="track-card track-f" href="roadmap.qmd#track-f">
+  <div class="tc-eyebrow">Track F</div>
+  <div class="tc-title">LLMs &amp; AI in biology</div>
   <p class="tc-desc">Embeddings, what a language model learns, and foundation
   models for biological data — the destination.</p>
   <span class="tc-status planned">Outlined</span>

@@ -142,7 +142,7 @@ decorative. *(Worked numbers for the first two are in
    hypotheses among those tested is the prior; a "significant" result is the
    evidence; the posterior is the thing that actually matters — and it is often
    alarmingly low [@ioannidis2005]. This is the bridge to
-   [Lesson 5 on multiple testing](../../roadmap.qmd#lesson-05).
+   [Lesson 6 on multiple testing](../../roadmap.qmd#lesson-06).
 4. **Finding a lost airplane.** The 2011 search for Air France 447: after two
    years of failure, a Bayesian search analysis combined prior drift models with
    the *failures* of previous searches — absence of evidence as evidence — and
