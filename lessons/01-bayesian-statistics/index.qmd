@@ -4,7 +4,7 @@ subtitle: "Updating beliefs with evidence — the one piece of mathematics that 
 ---
 
 ::: {.field-notes-band}
-<div class="fn-eyebrow">Lesson 01 · Track A — Inference foundations</div>
+<div class="fn-eyebrow">Lesson 01 · Track A — Reasoning under uncertainty</div>
 <div class="fn-title">Bayesian Statistics: Updating Beliefs with Evidence</div>
 <div class="fn-meta">
   <span class="fn-tag">~6 hours · 5 modules</span>
@@ -142,7 +142,7 @@ decorative. *(Worked numbers for the first two are in
    hypotheses among those tested is the prior; a "significant" result is the
    evidence; the posterior is the thing that actually matters — and it is often
    alarmingly low [@ioannidis2005]. This is the bridge to
-   [Lesson 5 on multiple testing](../../roadmap.qmd#lesson-05).
+   [Lesson 6 on multiple testing](../../roadmap.qmd#lesson-06).
 4. **Finding a lost airplane.** The 2011 search for Air France 447: after two
    years of failure, a Bayesian search analysis combined prior drift models with
    the *failures* of previous searches — absence of evidence as evidence — and

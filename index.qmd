@@ -1,6 +1,6 @@
 ---
 title: "Statistics by Intuition"
-subtitle: "A field notebook for scientists — the intuition behind the statistics and machine learning you'll be asked about, and the practice to make it stick."
+subtitle: "A field notebook for bioinformatics — the intuition behind the statistics and machine learning you'll actually use, examples from cutting-edge biology, and rigorous interview prep to make it all stick."
 toc: false
 ---
 
@@ -16,25 +16,30 @@ toc: false
 :::
 
 Most statistics education hands you a formula and hopes the meaning arrives
-later. It usually doesn't. This site inverts the order: every topic starts
-with a problem a scientist actually has — a suspicious test result, a batch
-effect, a model that looks great on training data and collapses in the wild —
-and lets the mathematics emerge from the problem rather than the other way
-around.
+later. It usually doesn't. This site inverts the order: every topic starts with
+a problem a bioinformatician actually has — a suspicious test result, a
+single-cell dataset that won't normalize, a batch effect, a model that looks
+great on training data and collapses in the wild — and lets the mathematics
+emerge from the problem rather than the other way around. The examples are
+modern on purpose: single-cell sequencing, neural networks and gradient descent,
+and language models applied to biology.
 
-It is built for two people who happen to be the same person on different days:
+It is built for three readers:
 
-- **The learner**, building durable intuition for the concepts that quietly
-  underpin all of quantitative biology and machine learning.
-- **The candidate**, three days from a technical interview, who needs to
-  explain what a *p*-value actually is, choose the right normalization, read a
-  residual plot, or reason out loud about why a model is overfitting — and
-  wants to have *seen the question before*.
+- **Graduate students** learning statistics and bioinformatics, who want
+  intuition that outlasts the exam.
+- **Late-stage PhDs and postdocs** preparing for hard technical interviews at
+  top companies and labs — people who need to explain what a *p*-value actually
+  is, choose the right normalization for scRNA-seq, read a residual plot, or
+  reason out loud about why a model is overfitting, and who want to have *seen
+  the question before*.
+- **Working professionals** who need a fast, trustworthy refresher on a key
+  concept or workflow before a meeting, an analysis, or a screen.
 
-Throughout, one lens keeps the material honest: **what would a technical
-interviewer — say, on a research science team building frontier models — press
-you on?** Not trivia. The reasoning: *why this method, what does it assume,
-how would you know if it broke, and what would you plot to find out?*
+Throughout, one lens keeps the material honest: **what would a sharp technical
+interviewer press you on?** Not trivia. The reasoning: *why this method, what
+does it assume, how would you know if it broke, and what would you plot to find
+out?*
 
 ## How to use this
 
@@ -56,46 +61,56 @@ examples with a pencil, then close the loop on the interview page. The
 exercises are where the learning actually happens.
 :::
 
+## The one idea to take away
+
+If this site has a single thesis, it's this: **real data doesn't tell you which
+method to use — recognizing the *shape* of the problem does.** Is this a
+base-rate problem? A maximum-likelihood problem? Does this sequence have memory,
+so I should think Markov? Is there no closed form, so I should simulate it? Every
+lesson is built to train that reflex, so that when you meet unfamiliar data you
+reach for the right family of tools on instinct.
+
 ## The curriculum
 
-Five tracks that build on each other, ending where scientific work is heading:
-using language models to find patterns in data. See the
-[full roadmap](roadmap.qmd) for every planned lesson and how they connect.
+Five tracks in a deliberate order — reasoning under uncertainty, fitting models
+to data, sequence models, machine learning, and finally language and foundation
+models. Each leans on the one before it. See the [full roadmap](roadmap.qmd) for
+every planned lesson and how they connect.
 
 ::: {.track-grid}
 <a class="track-card track-a" href="roadmap.qmd#track-a">
   <div class="tc-eyebrow">Track A</div>
-  <div class="tc-title">Inference foundations</div>
+  <div class="tc-title">Reasoning under uncertainty</div>
   <p class="tc-desc">Bayes, <em>p</em>-values, <em>t</em>-tests, confidence
-  intervals, multiple testing, power. The classic interview gauntlet.</p>
+  intervals, Monte Carlo simulation, multiple testing, power.</p>
   <span class="tc-status">Lesson 1 live</span>
 </a>
 <a class="track-card track-b" href="roadmap.qmd#track-b">
   <div class="tc-eyebrow">Track B</div>
-  <div class="tc-title">Data transformation</div>
-  <p class="tc-desc">Z-scores, log/rlog/VST, quantile, min–max. When each is
-  right, and what each quietly distorts.</p>
+  <div class="tc-title">From data to models</div>
+  <p class="tc-desc">Normalization, linear regression, maximum likelihood,
+  gradient descent, GLMs, and regularization.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-c" href="roadmap.qmd#track-c">
   <div class="tc-eyebrow">Track C</div>
-  <div class="tc-title">Regression &amp; models</div>
-  <p class="tc-desc">Linear and logistic regression, GLMs, regularization,
-  and the bias–variance tradeoff.</p>
+  <div class="tc-title">Modeling sequences</div>
+  <p class="tc-desc">Markov chains and hidden Markov models — data with memory:
+  gene finding, profile HMMs, Viterbi, base-calling.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-d" href="roadmap.qmd#track-d">
   <div class="tc-eyebrow">Track D</div>
-  <div class="tc-title">ML fundamentals</div>
-  <p class="tc-desc">The ML workflow as decision flowcharts: framing, model
-  choice, evaluation, metrics, and diagnostic plots.</p>
+  <div class="tc-title">Machine learning</div>
+  <p class="tc-desc">The ML workflow as flowcharts, model evaluation,
+  dimensionality reduction, and neural networks.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-e" href="roadmap.qmd#track-e">
   <div class="tc-eyebrow">Track E</div>
-  <div class="tc-title">Toward LLMs in science</div>
-  <p class="tc-desc">Embeddings, what a language model learns, and using LLMs
-  to find patterns in scientific data — the destination.</p>
+  <div class="tc-title">Language &amp; foundation models</div>
+  <p class="tc-desc">Embeddings, what a language model learns, and foundation
+  models for biological data — the destination.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 :::
