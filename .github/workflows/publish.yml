@@ -1,0 +1,55 @@
+name: Publish site
+
+# Build the Quarto site and deploy it to GitHub Pages on every push to main.
+# Also runnable on demand from the Actions tab (workflow_dispatch).
+#
+# The current site needs only Quarto — interactive figures are Observable JS
+# (client-side, no kernel). If a future lesson adds executable Python/R cells,
+# switch the build job to install the pixi environment (prefix-dev/setup-pixi)
+# and run `pixi run render` so the compute deps are available at render time.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.38"   # match the pixi-pinned Quarto version
+
+      - name: Render site
+        run: quarto render
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
