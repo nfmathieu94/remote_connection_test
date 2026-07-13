@@ -1,45 +1,68 @@
 ---
-title: "Lesson 1 — Bayesian Statistics: Updating Beliefs with Evidence"
-subtitle: "An intuition-first lesson plan"
+title: "Bayesian Statistics"
+subtitle: "Updating beliefs with evidence — the one piece of mathematics that doubles as a thinking tool."
 ---
+
+::: {.field-notes-band}
+<div class="fn-eyebrow">Lesson 01 · Track A — Inference foundations</div>
+<div class="fn-title">Bayesian Statistics: Updating Beliefs with Evidence</div>
+<div class="fn-meta">
+  <span class="fn-tag">~6 hours · 5 modules</span>
+  <span class="fn-tag">Prereqs: fractions &amp; algebra</span>
+  <span class="fn-tag">Interview: base rates, priors</span>
+</div>
+:::
 
 ::: {.lesson-meta}
 | | |
 |---|---|
-| **Audience** | Advanced undergrads, grad students, or self-learners in any quantitative field |
-| **Total time** | ~6 hours of instruction across 5 modules, plus exercises |
+| **Audience** | Biologists, bioinformaticians, and quantitative scientists — from advanced undergrad to working researcher |
+| **Total time** | ~6 hours across 5 modules, plus the exercise and interview sets |
 | **Prerequisites** | Fractions, percentages, basic algebra. Prior probability coursework helps but is **not** required — see the [Background Primer](background.qmd) |
-| **Companion pages** | [Background Primer](background.qmd) · [Bayes in Action: Worked Examples](bayes-in-action.qmd) |
+| **Companion pages** | [Background Primer](background.qmd) · [Bayes in Action](bayes-in-action.qmd) · [Interview Problems](interview.qmd) |
 :::
 
 ## Why this lesson exists
 
 Most people meet Bayes' theorem as a formula to memorize, apply it to two
-textbook problems, and forget it. That's a shame, because Bayesian reasoning
-is one of the few pieces of mathematics that doubles as a **general-purpose
-thinking tool**. It answers a question you face constantly:
+textbook problems, and forget it. That's a genuine loss, because Bayesian
+reasoning is one of the few pieces of mathematics that doubles as a
+**general-purpose thinking tool**. It answers a question you face constantly,
+in the lab and out of it:
 
 > *I believed something. Then I saw new evidence. What should I believe now?*
 
-Spam filters, medical diagnostics, election forecasts, A/B tests at every major
-tech company, the search that found Air France 447's wreckage — all run on this
-one idea. The goal of this lesson is not to make you fluent in formalism; it is
-to make Bayesian updating feel as natural as arithmetic.
+Spam filters, medical diagnostics, election forecasts, the false-discovery-rate
+correction on your last RNA-seq experiment, the A/B test behind every button on
+every major website, the search that finally found Air France 447's wreckage —
+all of them run on this one idea. The goal here is not fluency in formalism; it
+is to make Bayesian updating feel as natural as arithmetic.
+
+::: {.lens}
+This is Lesson 1 for a reason. In a technical interview for a science role, the
+Bayesian reflex — *"what's the base rate?"* — is a tell. It separates people who
+compute statistics from people who *reason* with them. Nearly every downstream
+topic (multiple testing, calibration, classifier precision on rare events) is
+this lesson wearing a different costume.
+:::
 
 ## Learning objectives
 
-By the end of this lesson, learners will be able to:
+By the end of this lesson, you will be able to:
 
 1. **Explain** the difference between $P(A \mid B)$ and $P(B \mid A)$, and why
-   confusing them (the *prosecutor's fallacy*) leads to real-world disasters.
-2. **Compute** posterior probabilities using natural frequencies (counting
-   people in a population) without needing the formula.
+   confusing them — the *prosecutor's fallacy* — has produced real wrongful
+   convictions.
+2. **Compute** posterior probabilities by counting natural frequencies, without
+   reaching for the formula.
 3. **State and apply** Bayes' theorem in both its probability and odds forms.
 4. **Identify** the prior, likelihood, and posterior in a real problem, and
    articulate where the prior comes from and why it matters.
-5. **Critique** claims in news and scientific reporting that ignore base rates.
-6. **Describe** how modern systems (spam filters, A/B testing, forecasting
-   models) operationalize Bayesian updating at scale.
+5. **Critique** claims in the news and the scientific literature that quietly
+   ignore base rates — including the "significant" result that is probably false
+   [@ioannidis2005].
+6. **Describe** how modern systems — spam filters, A/B tests, forecasting
+   models, genomic FDR control — operationalize Bayesian updating at scale.
 
 ## Module breakdown
 
@@ -47,9 +70,8 @@ By the end of this lesson, learners will be able to:
 
 **Hook:** A rapid antigen test for a disease is "95% accurate." You test
 positive. What's the chance you actually have the disease? Nearly everyone —
-including a majority of physicians in published surveys (Gigerenzer et al.,
-*Psychological Science in the Public Interest*, 2007) — answers "about 95%."
-The real answer, for a rare disease, can be under 10%.
+including a majority of physicians in published surveys [@gigerenzer2007] —
+answers "about 95%." The real answer, for a rare disease, can be under 10%.
 
 **Content:**
 
@@ -57,33 +79,33 @@ The real answer, for a rare disease, can be under 10%.
 - The three ingredients: what you believed before (**prior**), how well the
   evidence fits each hypothesis (**likelihood**), what you believe after
   (**posterior**).
-- Base rates and why our brains discard them (Kahneman & Tversky's
-  base-rate neglect experiments).
+- Base rates and why our brains discard them [@tversky1974].
 
-**Activity:** Learners estimate answers to three "test result" scenarios by gut
-feeling, record them, and revisit them at the end of Module 2. The gap between
-gut and math is the motivation for everything that follows.
+**Activity:** Estimate answers to three "test result" scenarios by gut feeling,
+record them, and revisit at the end of Module 2. The gap between gut and math is
+the motivation for everything that follows.
 
 ### Module 2 — Counting your way to the answer (60 min)
 
-**Core idea:** Before any formula, solve problems by imagining 10,000 people
-and literally counting. This *natural frequencies* approach (championed by
-Gerd Gigerenzer) is how the lesson builds intuition that survives after the
-formula is forgotten.
+**Core idea:** Before any formula, solve problems by imagining 10,000 people and
+literally counting. This *natural frequencies* approach is the single most
+replicated result in risk communication: it measurably improves accuracy over
+probability phrasing, for experts and novices alike [@gigerenzer1995].
 
 **Content:**
 
 - The 2×2 breakdown: sick/healthy × positive/negative.
-- Working the medical test problem by counting: 10,000 people, 1% prevalence,
-  95% sensitivity, 95% specificity → 95 true positives vs. ~495 false
-  positives → posterior ≈ 16%. *(Full walkthrough in
+- Working the medical-test problem by counting: 10,000 people, 1% prevalence,
+  95% sensitivity, 95% specificity → 95 true positives vs. ~495 false positives
+  → posterior ≈ 16%. *(Full walkthrough, plus an
+  [interactive explorer](bayes-in-action.qmd#the-interactive-version), in
   [Bayes in Action](bayes-in-action.qmd).)*
 - Why false positives dominate when the condition is rare — the **rare-event
   penalty**.
 - Re-testing as updating: the posterior from test 1 becomes the prior for test 2.
 
-**Activity:** Small groups solve the breathalyzer problem and the airport
-security screening problem by counting, then present their 2×2 tables.
+**Activity:** Small groups solve the breathalyzer and airport-screening problems
+by counting, then present their 2×2 tables.
 
 ### Module 3 — The theorem itself (60 min)
 
@@ -95,88 +117,99 @@ security screening problem by counting, then present their 2×2 tables.
 - Mapping each symbol back to the counting exercises: the formula is just the
   2×2 table in compressed notation.
 - The **odds form**: posterior odds = prior odds × likelihood ratio. Why
-  practitioners (forensic scientists, diagnosticians, forecasters) prefer it —
+  practitioners — forensic scientists, diagnosticians, forecasters — prefer it:
   evidence becomes a single multiplier.
-- Chaining evidence: multiplying likelihood ratios for independent pieces of
-  evidence.
+- Chaining evidence: multiplying likelihood ratios for independent pieces.
 
-**Activity:** Learners re-solve Module 2's problems with the formula and verify
-they get the same answers they got by counting. This "two roads, same
-destination" step is deliberately redundant — it is what cements trust in the
-formula.
+**Activity:** Re-solve Module 2's problems with the formula and verify you get
+the same answers you got by counting. This "two roads, same destination" step is
+deliberately redundant — it is what cements trust in the formula.
 
 ### Module 4 — Bayes in the modern world (90 min)
 
-Four case studies, each chosen because the Bayesian machinery is load-bearing,
-not decorative. *(Worked numbers for the first two are in
+Case studies chosen because the Bayesian machinery is load-bearing, not
+decorative. *(Worked numbers for the first two are in
 [Bayes in Action](bayes-in-action.qmd).)*
 
 1. **Spam filtering.** Naive Bayes classifiers — how "Congratulations, you've
-   won" moves the odds, word by word, via multiplied likelihood ratios. Why
-   the "naive" independence assumption is wrong but works anyway.
-2. **A/B testing.** How tech companies decide whether a new button color
-   actually improves clicks. Bayesian A/B testing answers the question product
-   managers actually ask — "what's the probability B beats A?" — which the
-   classical p-value does not.
-3. **Election forecasting.** How forecasters (e.g., FiveThirtyEight-style
-   models) combine a prior from economic and historical "fundamentals" with
-   polling evidence, and why forecasts move slowly early and quickly late.
-   A 30% chance is not "wrong" when the event happens — calibration as the
-   test of a forecaster.
+   won" moves the odds, word by word, via multiplied likelihood ratios. Why the
+   "naive" independence assumption is wrong but works anyway.
+2. **A/B testing.** How teams decide whether a change actually improves a metric.
+   Bayesian A/B testing answers the question people actually ask — "what's the
+   probability B beats A?" — which a classical *p*-value does not.
+3. **The reproducibility crisis.** Why a field can run thousands of well-powered
+   studies and still fill journals with false positives. The base rate of *true*
+   hypotheses among those tested is the prior; a "significant" result is the
+   evidence; the posterior is the thing that actually matters — and it is often
+   alarmingly low [@ioannidis2005]. This is the bridge to
+   [Lesson 5 on multiple testing](../../roadmap.qmd#lesson-05).
 4. **Finding a lost airplane.** The 2011 search for Air France 447: after two
-   years of failure, a Bayesian search analysis by Metron Inc. (Stone et al.,
-   *Statistical Science*, 2014) combined prior drift models with the
-   *failures* of previous searches — absence of evidence as evidence — and the
-   wreckage was found within one week of searching the highest-posterior
-   region. The same method found the USS Scorpion in 1968.
+   years of failure, a Bayesian search analysis combined prior drift models with
+   the *failures* of previous searches — absence of evidence as evidence — and
+   the wreckage was found within a week of searching the highest-posterior
+   region [@stone2014].
 
-**Discussion prompts:** Where does the prior come from in each case? Which
-case would break if the prior were badly wrong? Which self-corrects fastest?
+**Discussion prompts:** Where does the prior come from in each case? Which case
+breaks if the prior is badly wrong? Which self-corrects fastest?
 
 ### Module 5 — Priors, controversy, and good judgment (45 min)
 
 **Content:**
 
-- Where priors come from: base rates, historical data, physical models,
-  expert judgment — and what to do when reasonable people disagree.
-- Sensitivity analysis: if your conclusion flips when the prior wiggles, the
-  evidence is weak and you should say so.
-- The classical vs. Bayesian debate, presented honestly: what frequentist
-  methods do well, why the two frameworks usually agree when data is
-  plentiful, and why the difference matters most with scarce data or
-  one-off events.
-- Bayesian thinking as epistemic hygiene: "strong opinions, weakly held" has
-  a precise mathematical meaning.
+- Where priors come from: base rates, historical data, physical models, expert
+  judgment — and what to do when reasonable people disagree.
+- **Sensitivity analysis:** if your conclusion flips when the prior wiggles, the
+  evidence is weak and you should say so out loud. This is the single most
+  interview-relevant habit in the lesson.
+- The classical vs. Bayesian debate, honestly: what frequentist methods do well,
+  why the two usually agree when data is plentiful, and why the difference
+  matters most with scarce data or one-off events [@gelman2013].
+- Bayesian thinking as epistemic hygiene: "strong opinions, weakly held" has a
+  precise mathematical meaning.
 
-**Closing activity:** Learners revisit their Module 1 gut estimates and write
-a short reflection: which intuition was most wrong, and what corrected it?
+**Closing activity:** Revisit your Module 1 gut estimates and write a short
+reflection: which intuition was most wrong, and what corrected it?
 
 ## Assessment
 
 - **Formative:** the counting activities in Modules 2–3 (instructor circulates,
   checks 2×2 tables).
-- **Exercise set:** 8 problems on the [Bayes in Action](bayes-in-action.qmd)
-  page, ranging from direct computation to critique of a news claim.
-- **Summative option:** learners find one real news article or paper that
-  commits base-rate neglect or the prosecutor's fallacy and write a one-page
-  Bayesian correction with explicit prior, likelihood, and posterior.
+- **Exercise set:** eight problems on the [Bayes in Action](bayes-in-action.qmd)
+  page, from direct computation to critique of a news claim.
+- **Interview set:** the [Interview Problems](interview.qmd) page — conceptual
+  questions and a "train-of-thought" whiteboard problem, each with a model
+  answer.
+- **Summative option:** find one real news article or paper that commits
+  base-rate neglect or the prosecutor's fallacy and write a one-page Bayesian
+  correction with explicit prior, likelihood, and posterior.
 
 ## Instructor notes
 
-- The single most common failure mode is introducing the formula too early.
-  Hold the line: no formula until Module 3.
-- Natural-frequency phrasing ("out of 10,000 people…") measurably improves
-  accuracy over probability phrasing — this is one of the most replicated
-  findings in risk-communication research (Gigerenzer & Hoffrage,
-  *Psychological Review*, 1995). Use it relentlessly.
-- If learners are programmers, the spam-filter case study can become a
-  30-minute build-your-own-naive-Bayes coding exercise.
+- The single most common failure mode is introducing the formula too early. Hold
+  the line: no formula until Module 3.
+- Natural-frequency phrasing ("out of 10,000 people…") reliably beats
+  probability phrasing [@gigerenzer1995]. Use it relentlessly.
+- If your learners are programmers, the spam-filter case study becomes a
+  30-minute build-your-own-naive-Bayes exercise.
 
 ## Further reading
 
-- Gigerenzer, G. — *Calculated Risks* (2002). The natural-frequencies approach, book length.
-- McGrayne, S. B. — *The Theory That Would Not Die* (2011). The history, including Scorpion and Enigma.
+Full citations are on every page's reference list. Beyond the primary sources:
+
+- Gigerenzer, G. — *Calculated Risks* (2002). Natural frequencies, book length.
+- McGrayne, S. B. — *The Theory That Would Not Die* (2011) [@mcgrayne2011]. The
+  history, including the USS *Scorpion* and Enigma.
 - Silver, N. — *The Signal and the Noise* (2012). Forecasting and calibration.
-- Stone, L. D. et al. — "Search for the Wreckage of Air France Flight AF 447" (*Statistical Science*, 2014). The full AF 447 analysis.
-- Kurt, W. — *Bayesian Statistics the Fun Way* (2019). A gentle, example-driven next step.
-- 3Blue1Brown — "Bayes theorem, the geometry of changing beliefs" (video). Excellent visual companion to Modules 2–3.
+- Kurt, W. — *Bayesian Statistics the Fun Way* (2019). A gentle next step.
+- 3Blue1Brown — "Bayes theorem, the geometry of changing beliefs" (video). An
+  excellent visual companion to Modules 2–3.
+
+::: {.lesson-nav}
+<span>← You're at the start of the lesson</span>
+<span>[Background Primer →](background.qmd)</span>
+:::
+
+## References {.unnumbered}
+
+::: {#refs}
+:::

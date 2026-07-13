@@ -1,36 +1,82 @@
 project:
   type: website
   output-dir: _site
+  render:
+    - "*.qmd"
+    - "lessons/**/*.qmd"
 
 website:
   title: "Statistics by Intuition"
-  description: "Intuition-first lessons in modern statistics"
+  description: "Intuition-first statistics & ML for scientists — and interview prep for the questions that follow."
+  favicon: theme/favicon.svg
   navbar:
+    background: dark
+    pinned: true
     left:
       - href: index.qmd
         text: Home
-      - href: lessons/01-bayesian-statistics/index.qmd
-        text: Lessons
+      - href: roadmap.qmd
+        text: Roadmap
+      - text: Lessons
+        menu:
+          - href: lessons/01-bayesian-statistics/index.qmd
+            text: "01 · Bayesian Statistics"
+    right:
+      - icon: github
+        href: https://github.com/nfmathieu94/remote_connection_test
+        aria-label: GitHub
+    tools: []
   sidebar:
-    style: docked
+    style: floating
     search: true
+    collapse-level: 2
     contents:
-      - index.qmd
-      - section: "Lesson 1 · Bayesian Statistics"
+      - href: index.qmd
+        text: Home
+      - href: roadmap.qmd
+        text: Curriculum roadmap
+      - section: "Track A · Inference foundations"
         contents:
-          - lessons/01-bayesian-statistics/index.qmd
-          - lessons/01-bayesian-statistics/background.qmd
-          - lessons/01-bayesian-statistics/bayes-in-action.qmd
+          - section: "01 · Bayesian Statistics"
+            contents:
+              - href: lessons/01-bayesian-statistics/index.qmd
+                text: Lesson plan
+              - href: lessons/01-bayesian-statistics/background.qmd
+                text: Background primer
+              - href: lessons/01-bayesian-statistics/bayes-in-action.qmd
+                text: Bayes in action
+              - href: lessons/01-bayesian-statistics/interview.qmd
+                text: Interview problems
   page-footer:
-    center: "Statistics by Intuition · built with Quarto"
+    border: true
+    left: "**Statistics by Intuition** · a field notebook for scientists"
+    center: "Built with [Quarto](https://quarto.org)"
+    right: "© 2026 N. Mathieu"
+
+bibliography: references.bib
 
 format:
   html:
     theme:
-      light: flatly
-      dark: darkly
+      light:
+        - theme/field-notebook.scss
+      dark:
+        - theme/field-notebook.scss
+        - theme/field-notebook-dark.scss
     css: styles.css
     toc: true
     toc-depth: 3
+    toc-title: "On this page"
     number-sections: false
     link-external-newwindow: true
+    link-external-icon: false
+    fig-cap-location: margin
+    reference-location: margin
+    citations-hover: true
+    grid:
+      sidebar-width: 290px
+      body-width: 820px
+      margin-width: 280px
+    include-in-header:
+      - text: |
+          <meta name="color-scheme" content="light dark">

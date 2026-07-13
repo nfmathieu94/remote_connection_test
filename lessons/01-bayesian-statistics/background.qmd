@@ -1,7 +1,17 @@
 ---
 title: "Background Primer"
-subtitle: "Everything you need before the lesson — and nothing you don't"
+subtitle: "Everything you need before the lesson — and nothing you don't."
 ---
+
+::: {.field-notes-band}
+<div class="fn-eyebrow">Lesson 01 · Prerequisites</div>
+<div class="fn-title">Background Primer</div>
+<div class="fn-meta">
+  <span class="fn-tag">~30 min read</span>
+  <span class="fn-tag">4 ideas · 3 self-checks</span>
+  <span class="fn-tag">Skip if you're comfortable</span>
+</div>
+:::
 
 This primer covers the four ideas the [Bayesian statistics lesson](index.qmd)
 assumes. If you can comfortably answer the self-check at the bottom of each
@@ -113,9 +123,8 @@ before you look at any specific evidence: 1% of patients have the disease,
 0.1% of passengers are carrying a prohibited item, 45% of emails are spam.
 
 Base rates are the "prior" in Bayesian language, and the reliable finding
-from decades of psychology research (Kahneman & Tversky's work on
-representativeness in the 1970s and onward) is that **humans neglect them**
-when given vivid specific evidence. Told that Steve is "shy and tidy," people
+from decades of psychology research [@tversky1974] is that **humans neglect
+them** when given vivid specific evidence. Told that Steve is "shy and tidy," people
 judge him more likely to be a librarian than a farmer — ignoring that farmers
 vastly outnumber male librarians.
 
@@ -141,3 +150,13 @@ like filling in details.
 
 Ready? Head to the [lesson plan](index.qmd), or jump straight into the
 [worked examples](bayes-in-action.qmd).
+
+::: {.lesson-nav}
+<span>[← Lesson plan](index.qmd)</span>
+<span>[Bayes in Action →](bayes-in-action.qmd)</span>
+:::
+
+## References {.unnumbered}
+
+::: {#refs}
+:::

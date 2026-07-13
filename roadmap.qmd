@@ -1,0 +1,255 @@
+---
+title: "Curriculum Roadmap"
+subtitle: "Every lesson, why it's here, and the interview questions it prepares you for — from base rates to language models."
+---
+
+The curriculum is organized as five tracks. Earlier tracks are prerequisites
+for later ones in spirit if not in strict order: you cannot reason about a
+model's calibration (Track D) without confidence intervals (Track A), and you
+cannot interpret an embedding space (Track E) without clustering and distance
+(Track D). Each lesson below lists its status, its core ideas, and — because
+that is half the point of this site — **the interview questions it unlocks**.
+
+::: {.lens}
+The interview questions throughout are written in the spirit of a research
+science interview at a frontier-AI lab: less "state the formula," more "here is
+a messy situation — what do you do, what do you assume, and how would you know
+if you were wrong?" They double as a self-test. If you can answer them out
+loud, you know the lesson.
+:::
+
+# Track A · Inference foundations {#track-a}
+
+The statistics that every quantitative interview assumes you own. If you can
+only study one track before an interview, study this one.
+
+### Lesson 1 — Bayesian Statistics · *live* {#lesson-01}
+
+[Open the lesson →](lessons/01-bayesian-statistics/index.qmd)
+
+Updating beliefs with evidence: priors, likelihoods, posteriors, and why base
+rates are the most-ignored number in science. Natural-frequency reasoning,
+the odds form, and where priors come from.
+
+**Interview questions this unlocks**
+
+- A test is "99% accurate" and you test positive. Why isn't your answer 99%?
+- What is a prior, and what do you do when you don't have a good one?
+- Explain the base-rate fallacy to a collaborator who just p-hacked their way
+  to a "discovery."
+
+### Lesson 2 — *p*-values & Hypothesis Testing · *planned* {#lesson-02}
+
+What a *p*-value is, what it is emphatically *not*, and the machinery of the
+null-hypothesis significance test. Type I and Type II error, the meaning of
+$\alpha$, and why "not significant" is not "no effect" [@wasserstein2016].
+
+**Interview questions this unlocks**
+
+- Define a *p*-value in one sentence. Now list two things it is *not*.
+- You ran 40 tests and one came back at $p = 0.04$. Should you be excited?
+- What's the difference between statistical and practical significance?
+
+### Lesson 3 — *t*-tests & the *t*-distribution · *planned* {#lesson-03}
+
+One-sample, two-sample, and paired *t*-tests; where the *t*-distribution comes
+from and why it has fatter tails than the normal; the assumptions (normality,
+equal variance, independence) and what to do when they fail.
+
+**Interview questions this unlocks**
+
+- When would you use a paired *t*-test instead of a two-sample test?
+- Your two groups have wildly different variances. Now what?
+- Why *t* and not *z*? What is a degree of freedom, intuitively?
+
+### Lesson 4 — Confidence Intervals & the Bootstrap · *planned* {#lesson-04}
+
+What a confidence interval actually claims (and the interpretation everyone
+gets wrong), the duality with hypothesis tests, and the bootstrap as a way to
+get an interval when the formula is intractable.
+
+**Interview questions this unlocks**
+
+- A 95% CI is [2, 8]. What does "95%" refer to — and what does it *not*?
+- Explain the bootstrap to someone who's never seen it.
+- When does a confidence interval mislead you?
+
+### Lesson 5 — Multiple Comparisons & FDR · *planned* {#lesson-05}
+
+The problem that defines modern genomics: run 20,000 tests and thousands come
+back "significant" by chance. Family-wise error vs. false discovery rate;
+Bonferroni, Benjamini–Hochberg, and *q*-values [@benjamini1995; @storey2003].
+
+**Interview questions this unlocks**
+
+- You tested 20,000 genes at $\alpha = 0.05$. How many false positives do you
+  expect under the null? What do you do about it?
+- Bonferroni vs. Benjamini–Hochberg — when and why?
+- What is a *q*-value, and how is it different from a *p*-value?
+
+### Lesson 6 — Statistical Power & Experimental Design · *planned* {#lesson-06}
+
+Effect size, sample size, and the four-way relationship between $\alpha$,
+power, effect size, and $n$. Why underpowered studies are worse than useless,
+and how to plan a study that can actually answer its question.
+
+**Interview questions this unlocks**
+
+- Design a power analysis for an experiment I describe. What do you need to know?
+- Why is an underpowered "significant" result especially untrustworthy?
+- Post-hoc power is a trap. Why?
+
+# Track B · Data transformation & normalization {#track-b}
+
+### Lesson 7 — Normalization & Standardization · *planned* {#lesson-07}
+
+The transformations you apply before almost any analysis, and the ones
+interviewers love because everyone fumbles them. Z-scores, min–max scaling,
+log and its variance-stabilizing cousins (rlog, VST), quantile normalization.
+Framed on RNA-seq and other high-dimensional biological data.
+
+**Interview questions this unlocks**
+
+- You have RNA-seq counts across samples with different sequencing depths.
+  Walk me through how you'd normalize, and why.
+- When is a z-score the wrong choice? What does it assume?
+- Why log-transform? What does it fix, and what does it break at zero?
+- Quantile normalization forces every sample to share a distribution. When is
+  that a feature and when is it a lie?
+
+# Track C · Regression & models {#track-c}
+
+### Lesson 8 — Linear Regression · *planned* {#lesson-08}
+
+The workhorse. What the coefficients mean, the assumptions (linearity,
+independence, homoscedasticity, normal residuals), and — crucially — the
+diagnostic plots that tell you when it's lying to you.
+
+**Interview questions this unlocks**
+
+- Interpret this coefficient. Now interpret it if I add a correlated predictor.
+- I show you a residual-vs-fitted plot. What are you looking for?
+- What does $R^2$ tell you, and what does it hide?
+
+### Lesson 9 — Logistic Regression & GLMs · *planned* {#lesson-09}
+
+From lines to log-odds. Link functions, interpreting coefficients as odds
+ratios, the generalized linear model family, and model calibration.
+
+**Interview questions this unlocks**
+
+- Why can't you just use linear regression for a 0/1 outcome?
+- Interpret a logistic coefficient of 0.7.
+- What does it mean for a probabilistic classifier to be *calibrated*, and how
+  would you check?
+
+### Lesson 10 — Regularization & the Bias–Variance Tradeoff · *planned* {#lesson-10}
+
+The central tension of all model-fitting. Overfitting and underfitting made
+visual; ridge vs. lasso and what each does to coefficients; cross-validation
+as the honest estimate of out-of-sample error.
+
+**Interview questions this unlocks**
+
+- Draw the bias–variance tradeoff. Where does overfitting live?
+- Ridge vs. lasso — what's the difference and when do you reach for each?
+- Why do we need a validation set separate from the test set?
+
+# Track D · Machine learning fundamentals {#track-d}
+
+The interview core for any ML-adjacent science role. Heavy on **decision
+flowcharts** — the point is the *process*, not memorized definitions.
+
+### Lesson 11 — The ML Workflow · *planned* {#lesson-11}
+
+How to actually approach an ML problem, start to finish, as a set of decision
+flowcharts: is this even an ML problem? Supervised or unsupervised? How do you
+split the data? What's your baseline? What statistics do you capture and what
+plots do you generate at each stage? Includes hands-on "train a tiny model"
+walkthroughs.
+
+**Interview questions this unlocks**
+
+- I hand you a dataset and a vague goal. Walk me through your first hour.
+- What's your baseline, and why do you always build one first?
+- What would you plot after training, before trusting anything?
+
+### Lesson 12 — Model Evaluation & Selection · *planned* {#lesson-12}
+
+The metrics and the traps. Train/validation/test discipline, cross-validation,
+confusion matrices, ROC vs. precision–recall, class imbalance, and data
+leakage — the silent killer of real projects.
+
+**Interview questions this unlocks**
+
+- Accuracy is 99% and the model is useless. How is that possible?
+- ROC-AUC vs. PR-AUC — which do you report on a rare-event problem, and why?
+- Define data leakage and give me three ways it sneaks in.
+- Your CV score is great and production performance is terrible. Debug it.
+
+### Lesson 13 — Unsupervised Learning · *planned* {#lesson-13}
+
+Structure without labels. PCA for linear structure and variance, k-means and
+hierarchical clustering, and UMAP/t-SNE for visualization — with a hard focus
+on how to *not* over-interpret them.
+
+**Interview questions this unlocks**
+
+- What do the axes of a PCA plot mean? What about a UMAP plot? (Trick question.)
+- How do you choose *k* in k-means, and why is that choice partly a lie?
+- I see three clusters. How do I know they're real and not an artifact?
+
+# Track E · Toward LLMs in science {#track-e}
+
+The destination. Enough intuition for a broad scientist — not a
+mathematician — to use language models as instruments for finding patterns in
+scientific data and text, and to know when *not* to trust them.
+
+### Lesson 14 — Embeddings & Similarity · *planned* {#lesson-14}
+
+The idea that meaning can be a direction in space. What a vector embedding is,
+cosine similarity, and why "nearby in embedding space" is the engine under
+semantic search, clustering documents, and retrieval.
+
+**Interview questions this unlocks**
+
+- What *is* an embedding? What does distance in that space mean?
+- Cosine similarity vs. Euclidean distance — when does the choice matter?
+- How would you cluster 10,000 paper abstracts by topic without labels?
+
+### Lesson 15 — What a Language Model Actually Learns · *planned* {#lesson-15}
+
+Demystifying the machine. Tokens, the next-token objective, attention at an
+intuitive level, and what "learning" means for a model that only ever predicts
+the next piece of text. No heavy math — just the right mental model.
+
+**Interview questions this unlocks**
+
+- In one paragraph, what does training a language model actually optimize?
+- Why does next-token prediction produce something that looks like reasoning?
+- What can a model trained this way *not* be trusted to do?
+
+### Lesson 16 — Using LLMs to Find Patterns in Science · *planned* {#lesson-16}
+
+Putting it to work, responsibly. Retrieval over a corpus, clustering
+embeddings of experimental results, using models as noisy annotators, building
+simple evals, and the ever-present risks — hallucination, miscalibration, and
+confirmation bias dressed up as discovery.
+
+**Interview questions this unlocks**
+
+- You want to use an LLM to screen 50,000 abstracts for a phenotype. How do you
+  set it up, and how do you validate that it works?
+- The model is confidently wrong 5% of the time. How does that change your
+  pipeline design?
+- How do you build an eval for a task with no ground-truth labels?
+
+---
+
+::: {.callout-tip}
+## This roadmap is a living document
+Lessons ship as they're written; the outlines above are firm enough to study
+from and will be filled in over time. Track A is the priority. If you're
+preparing for a specific interview and want a lesson pulled forward, that's
+exactly the kind of thing this roadmap exists to make visible.
+:::
