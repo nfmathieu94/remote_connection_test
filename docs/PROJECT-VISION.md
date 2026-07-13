@@ -69,46 +69,55 @@ out. (Origin of the lens: "what would the Anthropic Science team ask?")
 | `<topic>-in-action.qmd` | Worked examples + interactive OJS figures |
 | `interview.qmd` | Rosalind-style problems + interviewer questions, model answers |
 
-## Curriculum (6 tracks, 21 lessons) — see `roadmap.qmd` for full detail
+## Curriculum (5 tracks, 21 lessons) — see `roadmap.qmd` for full detail
 
-**Track A · Inference foundations**
+Order is pedagogically sequenced (each lesson leans on the prior). Key
+sequencing decisions: Monte Carlo lives in Track A right after the bootstrap
+(bootstrap IS Monte Carlo; permutation extends testing; MCMC extends Bayes);
+MLE→Gradient Descent are an adjacent "principle→method" pair in Track B, placed
+after linear regression (least squares = MLE) so logistic regression arrives
+equipped with both; Markov/HMMs are their own "sequence models" track that sets
+up the neural sequence models / transformers later.
+
+**Track A · Foundations — reasoning under uncertainty**
 1. Bayesian Statistics — **LIVE (complete)**
 2. p-values & Hypothesis Testing — *next up*
 3. t-tests & the t-distribution
 4. Confidence Intervals & the Bootstrap
-5. Maximum Likelihood Estimation (likelihood, log-lik, MLE=optimization;
-   MLE vs MAP vs Bayesian; links fwd to gradient descent)
+5. Monte Carlo Methods & Simulation (permutation/randomization tests, simulating
+   nulls & power, MCMC intuition; generalizes the bootstrap)
 6. Multiple Comparisons & FDR (single-cell DE example)
 7. Statistical Power & Experimental Design (cells vs. samples trap)
 
-**Track B · Data transformation & normalization**
+**Track B · From data to models**
 8. Normalization & Standardization (z-score, log1p, CPM/TPM, size factors,
    SCTransform, VST, quantile; bulk + single-cell)
+9. Linear Regression (least squares, diagnostics, residual plots)
+10. Maximum Likelihood Estimation (least squares = MLE; log-lik; MLE=optimization;
+    MLE vs MAP vs Bayesian)
+11. Gradient Descent & Optimization (the *how* of MLE; loss surfaces, SGD;
+    reused by neural nets)
+12. Logistic Regression & GLMs (first no-closed-form model → MLE+GD; incl.
+    negative-binomial for RNA-seq)
+13. Regularization & the Bias–Variance Tradeoff (overfitting, ridge/lasso, CV;
+    bridge to ML)
 
-**Track C · Regression & statistical models**
-9. Linear Regression (diagnostics, residual plots)
-10. Logistic Regression & GLMs (incl. negative-binomial for RNA-seq)
-11. Regularization & the Bias–Variance Tradeoff (bridge to ML)
-
-**Track D · Probabilistic & computational modeling**
-12. Monte Carlo Methods & Simulation (permutation/randomization tests,
-    simulating nulls & power, MCMC intuition; bootstrap revealed as Monte Carlo)
-13. Markov Chains & Hidden Markov Models (Markov property; hidden states;
+**Track C · Modeling sequences**
+14. Markov Chains & Hidden Markov Models (Markov property; hidden states;
     Viterbi & forward–backward; gene finding, CpG islands, profile HMMs,
-    base-calling)
+    base-calling; ancestor of neural sequence models)
 
-**Track E · Machine learning: workflow → neural networks**
-14. The ML Workflow (decision flowcharts; train a tiny model)
-15. Model Evaluation & Selection (metrics, leakage, imbalance)
-16. Unsupervised Learning & Dimensionality Reduction (PCA/UMAP/clustering;
+**Track D · Machine learning**
+15. The ML Workflow (decision flowcharts; train a tiny model)
+16. Model Evaluation & Selection (metrics, leakage, imbalance)
+17. Unsupervised Learning & Dimensionality Reduction (PCA/UMAP/clustering;
     single-cell heavy)
-17. Gradient Descent & Optimization (the learning engine; the *how* of MLE)
-18. Neural Networks (logistic regression → deep nets; backprop intuition)
+18. Neural Networks (logistic regression → deep nets; backprop reuses GD)
 
-**Track F · LLMs & modern AI in biology**
+**Track E · Language & foundation models in biology**
 19. Embeddings & Similarity (words, proteins, cells as vectors)
 20. What a Language Model Actually Learns (tokens, attention, transformers —
-    intuition, incl. protein sequences)
+    intuition; modern answer to the HMM sequence problem)
 21. LLMs & Foundation Models in Biology (ESM-style protein LMs, single-cell
     foundation models, literature mining, evals, hallucination risks)
 

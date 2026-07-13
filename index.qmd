@@ -72,49 +72,43 @@ reach for the right family of tools on instinct.
 
 ## The curriculum
 
-Six tracks that build on each other, ending where scientific work is heading:
-using language and foundation models to find patterns in biological data. See
-the [full roadmap](roadmap.qmd) for every planned lesson and how they connect.
+Five tracks in a deliberate order — reasoning under uncertainty, fitting models
+to data, sequence models, machine learning, and finally language and foundation
+models. Each leans on the one before it. See the [full roadmap](roadmap.qmd) for
+every planned lesson and how they connect.
 
 ::: {.track-grid}
 <a class="track-card track-a" href="roadmap.qmd#track-a">
   <div class="tc-eyebrow">Track A</div>
-  <div class="tc-title">Inference foundations</div>
+  <div class="tc-title">Reasoning under uncertainty</div>
   <p class="tc-desc">Bayes, <em>p</em>-values, <em>t</em>-tests, confidence
-  intervals, maximum likelihood, multiple testing, power.</p>
+  intervals, Monte Carlo simulation, multiple testing, power.</p>
   <span class="tc-status">Lesson 1 live</span>
 </a>
 <a class="track-card track-b" href="roadmap.qmd#track-b">
   <div class="tc-eyebrow">Track B</div>
-  <div class="tc-title">Data transformation</div>
-  <p class="tc-desc">Z-scores, log/rlog/VST, quantile, min–max. When each is
-  right, and what each quietly distorts.</p>
+  <div class="tc-title">From data to models</div>
+  <p class="tc-desc">Normalization, linear regression, maximum likelihood,
+  gradient descent, GLMs, and regularization.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-c" href="roadmap.qmd#track-c">
   <div class="tc-eyebrow">Track C</div>
-  <div class="tc-title">Regression &amp; models</div>
-  <p class="tc-desc">Linear and logistic regression, GLMs, regularization,
-  and the bias–variance tradeoff.</p>
+  <div class="tc-title">Modeling sequences</div>
+  <p class="tc-desc">Markov chains and hidden Markov models — data with memory:
+  gene finding, profile HMMs, Viterbi, base-calling.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-d" href="roadmap.qmd#track-d">
   <div class="tc-eyebrow">Track D</div>
-  <div class="tc-title">Probabilistic &amp; computational</div>
-  <p class="tc-desc">Monte Carlo &amp; simulation, Markov chains and hidden
-  Markov models — sequences with memory, and problems with no closed form.</p>
+  <div class="tc-title">Machine learning</div>
+  <p class="tc-desc">The ML workflow as flowcharts, model evaluation,
+  dimensionality reduction, and neural networks.</p>
   <span class="tc-status planned">Outlined</span>
 </a>
 <a class="track-card track-e" href="roadmap.qmd#track-e">
   <div class="tc-eyebrow">Track E</div>
-  <div class="tc-title">ML: workflow → neural nets</div>
-  <p class="tc-desc">The ML workflow as flowcharts, model evaluation,
-  dimensionality reduction, gradient descent, and neural networks.</p>
-  <span class="tc-status planned">Outlined</span>
-</a>
-<a class="track-card track-f" href="roadmap.qmd#track-f">
-  <div class="tc-eyebrow">Track F</div>
-  <div class="tc-title">LLMs &amp; AI in biology</div>
+  <div class="tc-title">Language &amp; foundation models</div>
   <p class="tc-desc">Embeddings, what a language model learns, and foundation
   models for biological data — the destination.</p>
   <span class="tc-status planned">Outlined</span>

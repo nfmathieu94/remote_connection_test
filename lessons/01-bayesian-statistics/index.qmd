@@ -4,7 +4,7 @@ subtitle: "Updating beliefs with evidence — the one piece of mathematics that 
 ---
 
 ::: {.field-notes-band}
-<div class="fn-eyebrow">Lesson 01 · Track A — Inference foundations</div>
+<div class="fn-eyebrow">Lesson 01 · Track A — Reasoning under uncertainty</div>
 <div class="fn-title">Bayesian Statistics: Updating Beliefs with Evidence</div>
 <div class="fn-meta">
   <span class="fn-tag">~6 hours · 5 modules</span>
