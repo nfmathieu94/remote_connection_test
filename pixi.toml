@@ -1,0 +1,14 @@
+[workspace]
+authors = ["Nathan Mathieu <nmath020@ucr.edu>"]
+channels = ["conda-forge"]
+name = "statistics-by-intuition"
+platforms = ["linux-64"]
+version = "0.1.0"
+description = "Intuition-first statistics lessons published as a Quarto website"
+
+[tasks]
+render = "quarto render"
+preview = "quarto preview"
+
+[dependencies]
+quarto = ">=1.9.38,<2"

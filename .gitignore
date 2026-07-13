@@ -1,0 +1,13 @@
+# Quarto build output
+_site/
+.quarto/
+
+# Editor / OS noise
+.DS_Store
+*.swp
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+/.quarto/
+**/*.quarto_ipynb

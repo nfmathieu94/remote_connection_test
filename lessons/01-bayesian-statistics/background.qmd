@@ -1,0 +1,143 @@
+---
+title: "Background Primer"
+subtitle: "Everything you need before the lesson — and nothing you don't"
+---
+
+This primer covers the four ideas the [Bayesian statistics lesson](index.qmd)
+assumes. If you can comfortably answer the self-check at the bottom of each
+section, you're ready. Total reading time: about 30 minutes.
+
+## 1. Probability as a measure of belief
+
+A probability is a number between 0 and 1 that measures how strongly you
+expect something. 0 means "impossible," 1 means "certain," and 0.5 means
+"could go either way."
+
+Two mental models coexist, and both are useful:
+
+- **Long-run frequency:** "This coin lands heads with probability 0.5" means
+  that across many flips, about half come up heads.
+- **Degree of belief:** "I'm 80% sure I locked the door" is a perfectly
+  meaningful probability even though there's no repeatable experiment — the
+  door is either locked or it isn't. The 80% describes *your uncertainty*,
+  not the door.
+
+Bayesian statistics leans on the second reading. That's what makes it
+applicable to one-off questions — *will this candidate win?*, *does this
+patient have the disease?* — where "repeat the experiment many times" makes
+no literal sense.
+
+::: {.callout-note}
+## Self-check 1
+The weather app says 30% chance of rain tomorrow. Tomorrow it rains. Was the
+app wrong? *(Answer: not necessarily — a single outcome can't invalidate a
+probability. What would discredit the app is if, across many "30%" days, it
+rained far more or less often than 30% of the time. That property is called
+**calibration**, and it reappears in Module 4 of the lesson.)*
+:::
+
+## 2. Joint and conditional probability
+
+**Joint probability** is the chance of two things both being true:
+$P(A \text{ and } B)$. Example: the probability that a randomly chosen person
+is left-handed *and* plays guitar.
+
+**Conditional probability** is the chance of one thing *given* that another is
+true, written $P(A \mid B)$ — "the probability of A given B." The vertical bar
+is pronounced "given," and everything to its right is treated as an
+established fact.
+
+The two are connected by the definition that all of Bayesian statistics is
+built on:
+
+$$P(A \mid B) = \frac{P(A \text{ and } B)}{P(B)}$$
+
+In words: among the situations where B happens, what fraction also have A?
+
+**A concrete example.** In a class of 100 students, 40 drink coffee, and 10
+students both drink coffee and are morning people. Then
+
+$$P(\text{morning person} \mid \text{coffee}) = \frac{10}{40} = 0.25.$$
+
+Note what happened: conditioning on "drinks coffee" *shrank the world* from
+100 students to 40, and we recounted inside the smaller world. That's all
+conditioning is — shrinking the world and recounting.
+
+::: {.callout-note}
+## Self-check 2
+Same class: 50 students are morning people. What is
+$P(\text{coffee} \mid \text{morning person})$? *(Answer: 10/50 = 0.20 —
+different from the 0.25 above. That asymmetry is the subject of the next
+section.)*
+:::
+
+## 3. The direction of the bar matters — a lot
+
+$P(A \mid B)$ and $P(B \mid A)$ are different numbers, sometimes wildly
+different. This sounds obvious stated abstractly, yet confusing them is
+probably the most consequential statistical error humans make:
+
+- $P(\text{positive test} \mid \text{healthy})$ might be 5%, while
+  $P(\text{healthy} \mid \text{positive test})$ can be 84% — same test, same
+  population. Doctors and patients routinely conflate the two.
+- In court: $P(\text{evidence} \mid \text{innocent})$ being tiny does **not**
+  mean $P(\text{innocent} \mid \text{evidence})$ is tiny. This confusion is
+  called the **prosecutor's fallacy**, and it has produced real wrongful
+  convictions — most infamously the 1999 UK case of Sally Clark, convicted
+  after a medical expert squared a 1-in-8,543 probability to get "1 in 73
+  million," neglecting both the dependence between events and the base rate
+  of the alternative explanation. The conviction was overturned in 2003.
+
+An extreme example makes the asymmetry vivid:
+
+> $P(\text{dead} \mid \text{struck by lightning})$ is high.
+> $P(\text{struck by lightning} \mid \text{dead})$ is minuscule.
+
+Bayes' theorem is exactly the tool that converts one direction of the bar
+into the other — legitimately, using the base rate. Which brings us to the
+last prerequisite.
+
+::: {.callout-note}
+## Self-check 3
+About 90% of professional basketball players are over six feet tall. Does it
+follow that 90% of people over six feet tall are professional basketball
+players? Why not — what number is missing? *(Answer: no; you need the **base
+rates** — there are millions of tall people and only a few hundred NBA
+players, so $P(\text{NBA} \mid \text{tall})$ is close to zero.)*
+:::
+
+## 4. Base rates
+
+The **base rate** is how common something is in the relevant population
+before you look at any specific evidence: 1% of patients have the disease,
+0.1% of passengers are carrying a prohibited item, 45% of emails are spam.
+
+Base rates are the "prior" in Bayesian language, and the reliable finding
+from decades of psychology research (Kahneman & Tversky's work on
+representativeness in the 1970s and onward) is that **humans neglect them**
+when given vivid specific evidence. Told that Steve is "shy and tidy," people
+judge him more likely to be a librarian than a farmer — ignoring that farmers
+vastly outnumber male librarians.
+
+The whole machinery of the lesson ahead is, in one sentence: *a disciplined
+way of making the base rate impossible to ignore.*
+
+::: {.callout-tip}
+## The one habit to build now
+Whenever you hear a claim of the form "the test/detector/witness is X%
+accurate," train yourself to immediately ask: **"and how common is the thing
+it's detecting?"** If you have that reflex, the rest of the lesson will feel
+like filling in details.
+:::
+
+## Notation cheat sheet
+
+| Symbol | Read as | Lesson role |
+|--------|---------|-------------|
+| $P(H)$ | probability of hypothesis H | **prior** — belief before evidence |
+| $P(E \mid H)$ | probability of the evidence, if H is true | **likelihood** |
+| $P(H \mid E)$ | probability of H, given the evidence | **posterior** — belief after evidence |
+| $P(E)$ | overall probability of the evidence | normalizer (the "denominator") |
+
+Ready? Head to the [lesson plan](index.qmd), or jump straight into the
+[worked examples](bayes-in-action.qmd).
